@@ -86,8 +86,28 @@ public DateTime CreatedDate { get; set; }
 MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
-
 17. Villa Data Store
+
+Move data in controller to VillaStore
+MagicVilla_VillaAPI/Data/VillaStore.cs
+
+    public static class VillaStore
+    {
+        public static List<VillaDTO> villaList = new List<VillaDTO>
+            {
+                new VillaDTO { Id = 1, Name = "Pool View" },
+                new VillaDTO { Id = 2, Name = "Beach View" }
+            };
+    }
+
+Update Controller
+
+        [HttpGet]
+        public IEnumerable<VillaDTO> GetVillas()
+        {
+            return VillaStore.villaList;
+        }
+
 
 
 
