@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
+    [Route("api/VillaAPI")]
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
@@ -23,11 +24,32 @@ namespace MagicVilla_VillaAPI.Controllers
 }
 
 
-
-
 14. First API Endpoint - HTTPGET
 
+Create first model 
+MagicVilla_VillaAPI/Models/Villa.cs
 
+namespace MagicVilla_VillaAPI.Models
+{
+    public class Villa
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}
+
+Work on controller
+create an endpoint to get predefined data
+
+        [HttpGet]
+        public IEnumerable<Villa> GetVillas()
+        {
+            return new List<Villa>
+            {
+                new Villa { Id = 1, Name = "Pool View" },
+                new Villa { Id = 2, Name = "Beach View" }
+            };
+        }
 
 
 15. Using Controller Name in Route
