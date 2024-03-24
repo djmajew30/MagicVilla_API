@@ -9,6 +9,19 @@ delete weather files
 
 13. Create VillaAPIController Class
 
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+can add controller- API empty, or just use a class but name it ending in Controller.cs
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace MagicVilla_VillaAPI.Controllers
+{
+    [ApiController]
+    public class VillaAPIController : ControllerBase
+    {
+    }
+}
+
 
 
 
