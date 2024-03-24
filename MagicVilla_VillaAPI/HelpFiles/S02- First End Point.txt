@@ -1,12 +1,10 @@
 ﻿11. Add project to source control
 https://github.com/bhrugen/MagicVilla_API
-
-
-
+https://github.com/djmajew30/MagicVilla_API
+Bottom taskbar, add to github repository
 
 12. Code CleanUp
-
-
+delete weather files
 
 
 13. Create VillaAPIController Class
