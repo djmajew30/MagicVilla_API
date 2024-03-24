@@ -64,6 +64,26 @@ create an endpoint to get predefined data
 
 16. Add VillaDTO
 
+In this example, Villa will now have CreatedDate, but we don't want to send that created date, so we use a DTO.
+Villa model not being used in this example yet. dto used instead
+
+Use DTO as a wrapper between model and exposed api
+add folder and dto file
+MagicVilla_VillaAPI/Models/Dto/VillaDTO.cs
+
+namespace MagicVilla_VillaAPI.Models.Dto
+{
+    public class VillaDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}
+
+MagicVilla_VillaAPI/Models/Villa.cs
+public DateTime CreatedDate { get; set; }
+
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
 
