@@ -1,0 +1,70 @@
+﻿
+19. Status Code in EndPoints
+
+
+
+
+
+20. Response Types
+
+
+
+
+
+21. HttpPOST in Action
+
+
+
+
+
+22. CreatedAtRoute
+
+
+
+
+
+23. ModelState Validations
+
+
+
+
+
+24. Custom ModelState Validation
+
+
+
+
+
+25. Http Delete in Action
+
+
+
+
+
+26. Http PUT in action
+
+
+
+
+
+27. Http Patch Nuget Packages
+
+
+
+
+
+28. Http Patch in Action
+
+
+
+
+
+29. PostMan
+
+
+
+
+30. Content Negotiations
+
+
+

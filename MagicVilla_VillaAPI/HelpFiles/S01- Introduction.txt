@@ -1,0 +1,71 @@
+﻿NEW PROJECT TYPE: ASP.NET Core Web API
+
+GITHUB REPO:
+https://github.com/bhrugen/MagicVilla_API/commits/master/?after=ded7b5475d6514cb2865de5293a001ebb3aeda45+104
+https://www.dotnetmastery.com/Home/Details?courseId=7
+
+
+REQUEST OBJECT
+HTTP Verbs and Actions
+
+GET: This method is used to retrieve data from a specified resource. It should not change the state of the resource and is considered 'safe' as it does not alter the data.
+
+POST: This method is used to send data to a server to create a new resource. It is often used when submitting form data or uploading a file.
+
+PUT: This method replaces all current representations of the target resource with the uploaded content. It's used to update a resource entirely.
+
+PATCH: Unlike PUT, which updates the entire resource, PATCH applies a partial update to the resource. It's used when you want to make changes to a resource without changing the whole data.
+
+DELETE: This method removes the specified resource from the server.
+
+OTHERS, LESS COMMON:
+  
+There are a few other HTTP methods defined by the HTTP/1.1 specification, though they are less commonly used than the ones you mentioned. Here are additional methods:
+
+HEAD: Similar to GET, HEAD requests data from a server, but it does not return the body of the response. It's often used for retrieving metadata or verifying that a resource exists without transferring the entire content.
+
+OPTIONS: This method is used to describe the communication options for the target resource. It can be used to check which HTTP methods are supported by a server or to perform a pre-flight request in CORS (Cross-Origin Resource Sharing).
+
+TRACE: This method performs a message loop-back test along the path to the target resource. It's used for diagnostic purposes, echoing the received request so that a client can see what (if any) changes or additions have been made by intermediate servers.
+
+CONNECT: This method is used by the client to establish a network connection to a web server over HTTP. It's used for opening a tunnel, often to facilitate SSL-encrypted communication (HTTPS) through an unencrypted HTTP proxy.
+
+It's worth noting that the implementation and support of these methods can vary by web server, and their use may be restricted for security and practical reasons.
+
+HEADERS
+Request’s Metadata
+
+- Content Type: Content’s Format
+- Content Length: Size of the Content
+- Authorization: Who is making the request
+- Accept: What are the accepted type(s)
+- More headers...
+
+
+-----------------------------------------------------------------------
+RESPONSE OBJECT
+Status Codes for Operation Result
+
+- 100-199: Informational
+
+- 200-299: Success
+  - 200 – OK
+  - 201 – Created
+  - 204 – No Content
+
+- 300-399: Redirection
+
+- 400-499: Client Errors
+  - 400 – Bad Request
+  - 404 – Not Found
+  - 409 – Conflict
+
+HEADERS
+Response’s Metadata
+
+- Content Type: Content’s Format
+- Content Length: Size of the Content
+- Expires: When is this invalid
+- More headers...
+
+

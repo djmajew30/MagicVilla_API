@@ -1,0 +1,102 @@
+﻿31. Logger Dependency Injection
+
+
+
+
+
+
+
+32. Changing Logger with Dependency Injection - Serilog
+
+
+
+
+
+
+
+33. Dependency Injection - Custom Logging
+
+
+
+
+
+
+
+34. Entity Framework Core Database Models
+
+
+
+
+
+
+
+35. NugetPackages for Entity Framework Core
+
+
+
+
+
+
+
+36. SQL Server Connection Server Name
+
+
+
+
+
+
+
+37. Connection String and DbSet Entity
+
+
+
+
+
+
+
+38. Use Connection String
+
+
+
+
+
+
+
+39. Create Villa Table
+
+
+
+
+
+
+
+40. Seed Villa Table with records
+
+
+
+
+
+
+
+41. Use ApplicationDbContext in APIController
+
+
+
+
+
+
+
+42. Demo - Entity Frameowkr Core CRUD in Action
+
+
+
+
+
+
+
+43. AsNoTracking in Action
+
+
+
+
+

@@ -1,0 +1,40 @@
+﻿11. Add project to source control
+https://github.com/bhrugen/MagicVilla_API
+
+
+
+
+12. Code CleanUp
+
+
+
+
+13. Create VillaAPIController Class
+
+
+
+
+14. First API Endpoint - HTTPGET
+
+
+
+
+15. Using Controller Name in Route
+
+
+
+
+16. Add VillaDTO
+
+
+
+
+17. Villa Data Store
+
+
+
+
+18. Get individual Villa
+
+
+
