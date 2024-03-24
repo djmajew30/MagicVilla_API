@@ -109,10 +109,21 @@ Update Controller
         }
 
 
-
-
-
 18. Get individual Villa
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+
+        [HttpGet]
+        public IEnumerable<VillaDTO> GetVillas()
+        {
+            return VillaStore.villaList;
+        }
+
+        [HttpGet("{id:int}")]
+        public VillaDTO GetVilla(int id)
+        {
+            return VillaStore.villaList.FirstOrDefault(u=>u.Id==id);
+        }
+
 
 
 
