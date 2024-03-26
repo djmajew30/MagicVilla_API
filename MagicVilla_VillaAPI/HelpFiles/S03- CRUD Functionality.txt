@@ -138,10 +138,16 @@ MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
 
-24. Custom ModelState Validation
+24. Custom ModelState Validation, unique/distinct villa name needed, villa already exists
 
-
-
+        public ActionResult<VillaDTO> CreateVilla([FromBody]VillaDTO villaDTO)
+        {...
+            //24. Custom ModelState Validation, unique/distinct villa name
+            if (VillaStore.villaList.FirstOrDefault(u => u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
+            {
+                ModelState.AddModelError("CustomError", "Villa already Exists!"); //key:value. Key must be unique
+                return BadRequest(ModelState);
+            }...
 
 
 25. Http Delete in Action
