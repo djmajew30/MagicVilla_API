@@ -42,5 +42,32 @@ namespace MagicVilla_VillaAPI.Controllers
 
             return Ok(villa);
         }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<VillaDTO> CreateVilla([FromBody]VillaDTO villaDTO)
+        {
+            //add validations
+            //not the right information
+            if (villaDTO == null)
+            {
+                return BadRequest(villaDTO);
+            }
+
+            //id should be 0
+            if (villaDTO.Id > 0)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError); 
+            }
+
+            //Get/assign new id of the villa object, max id + 1 
+            villaDTO.Id = VillaStore.villaList.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
+            VillaStore.villaList.Add(villaDTO);
+
+            return Ok(villaDTO);
+        }
+
     }
 }
