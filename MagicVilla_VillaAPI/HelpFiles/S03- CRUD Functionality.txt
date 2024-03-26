@@ -117,10 +117,24 @@ Now we can use in CreateVilla to return created at route for 201
         }
 
 
+23. ModelState Validations, ex. name field required, max length 30 chars
 
-23. ModelState Validations
+MagicVilla_VillaAPI/Models/Dto/VillaDTO.cs
 
+        [Required]
+        [MaxLength(30)]
+        public string Name { get; set; }
 
+Validation works becuase the villaapicontroller use annotation of 
+    [ApiController]
+
+If that annotation is not used, we need to check it like this in CreateVilla:
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
 
