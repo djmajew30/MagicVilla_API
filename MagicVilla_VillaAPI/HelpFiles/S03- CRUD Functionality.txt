@@ -53,6 +53,7 @@ right now code is returned but its not documented in API
 MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
         [HttpGet]
+        //these are to document/remove undocumented
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         ...
@@ -98,9 +99,22 @@ MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 Start project, post and change only name, test with get methods. will not save becuase we are not using a database right now
 
 
-22. CreatedAtRoute
+22. CreatedAtRoute, to give you link of new resource that was created instead of Ok 200
 
+Give httpget GetVilla an explicit name to call on later:
+        [HttpGet("{id:int}", Name ="GetVilla")]
 
+Now we can use in CreateVilla to return created at route for 201
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]//want to give 201 created instead
+        ...
+        public ActionResult<VillaDTO> CreateVilla([FromBody]VillaDTO villaDTO)
+        {...
+            VillaStore.villaList.Add(villaDTO);
+
+            return CreatedAtRoute("GetVilla",new { id = villaDTO.Id }, villaDTO); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
+        }
 
 
 
