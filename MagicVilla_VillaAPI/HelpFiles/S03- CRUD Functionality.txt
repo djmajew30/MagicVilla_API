@@ -224,8 +224,17 @@ MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
 27. Http Patch Nuget Packages (to Edit/update one property)
+https://jsonpatch.com/
+add packages
+Microsoft.AspNetCore.JsonPatch
+Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
+MagicVilla_VillaAPI/Program.cs
 
+    // Add services to the container.
+
+    //added in 27. patch nuget packages
+    builder.Services.AddControllers().AddNewtonsoftJson();
 
 
 
