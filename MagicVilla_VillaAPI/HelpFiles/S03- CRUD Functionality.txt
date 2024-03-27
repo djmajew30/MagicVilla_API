@@ -287,9 +287,59 @@ to test:
 Then get all to see
 
 
-29. PostMan
+29. PostMan, because Swagger is not always available
+https://www.postman.com/
 
+    GET all
+    select new...http request
+    select type
+    getall
+    https://localhost:7245/api/villaapi
+    SSL verification disabled
 
+    GET based on ID
+    https://localhost:7245/api/villaapi/2
+
+    POST/create
+    dont need an id
+    https://localhost:7245/api/villaapi
+    go to body tab, select raw
+    ID not needed
+    {
+        "name": "new villa 5555",
+        "occupancy": 4,
+        "sqft": 400
+    }
+    SEND error 415,
+    need to change from default text to json in dropdown next to raw
+
+    PUT
+    need to pass the id
+    https://localhost:7245/api/villaapi/3
+    body raw jason
+    with the change:
+    {
+        "id": 3,
+        "name": "new villa 33333",
+        "occupancy": 4,
+        "sqft": 400
+    }
+
+    PATCH we want 204 No Content
+    https://localhost:7245/api/villaapi/3
+    body raw json
+
+    must pass an an array []
+
+    [{
+        "path":"/name",
+        "op":"replace",
+        "value":"new villa PATCH"
+    }]
+
+    DELETE
+    https://localhost:7245/api/villaapi/3
+    send
 
 
 30. Content Negotiations
