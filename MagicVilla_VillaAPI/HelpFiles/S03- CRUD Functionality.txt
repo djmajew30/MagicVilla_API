@@ -16,6 +16,12 @@ Status Codes for Operation Result
   - 409 – Conflict
   
 
+flow of object:
+MagicVilla_VillaAPI.Models.Villa --> MagicVilla_VillaAPI.Models.Dto.VillaDTO
+-->MagicVilla_VillaAPI.Data.VillaStore --> MagicVilla_VillaAPI.Controllers.VillaAPIController
+
+
+
 19. Status Code in EndPoints, define return type
 MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
@@ -176,19 +182,54 @@ use IActionResult instead of ActionResult becuase you do not need to define the 
         }
 
 
-26. Http PUT in action
+26. Http PUT in action (Edit/Update record), more common than patch
+
+Update VillaDTO
+MagicVilla_VillaAPI/Models/Dto/VillaDTO.cs
+
+        public int Occupancy { get; set; }
+        public int Sqft { get; set; }
+
+Update VillaStore (data)
+MagicVilla_VillaAPI/Data/VillaStore.cs
+
+        public static List<VillaDTO> villaList = new List<VillaDTO>
+            {
+                new VillaDTO { Id = 1, Name = "Pool View",Sqft=100,Occupancy=4 },
+                new VillaDTO { Id = 2, Name = "Beach View",Sqft=300,Occupancy=3 }
+            };
+
+
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+
+        [HttpPut("{id:int}", Name = "UpdateVilla")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult UpdateVilla(int id, [FromBody] VillaDTO villaDTO)
+        {
+            if (villaDTO == null || id != villaDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            //get villa from list
+            var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
+            villa.Name = villaDTO.Name;
+            villa.Sqft = villaDTO.Sqft;
+            villa.Occupancy = villaDTO.Occupancy;
+
+            return NoContent();
+        }
+
+
+
+27. Http Patch Nuget Packages (to Edit/update one property)
 
 
 
 
 
-27. Http Patch Nuget Packages
-
-
-
-
-
-28. Http Patch in Action
+28. Http Patch in Action (Edit/update one property)
 
 
 
