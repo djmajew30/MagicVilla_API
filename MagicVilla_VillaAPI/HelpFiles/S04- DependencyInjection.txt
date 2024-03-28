@@ -1,6 +1,53 @@
 ﻿31. Logger Dependency Injection
 
+not using loggers right now in apicontroller
+logging is already registered in the application, we need to retreive in dependency injection
+appsettings.json has settings for logging
+loggings show in console window when the application is run (window not shown in iis express)
 
+Log in the controller using dependency injection
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+
+    public class VillaAPIController : ControllerBase
+    {
+
+        //31. Logger dependency injection
+        private readonly ILogger<VillaAPIController> _logger;
+
+        public VillaAPIController(ILogger<VillaAPIController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<VillaDTO>> GetVillas()
+        {
+            _logger.LogInformation("Getting all villas");
+            return Ok(VillaStore.villaList); //200 success
+        }
+
+        [HttpGet("{id:int}", Name ="GetVilla")]
+        ...
+        public ActionResult<VillaDTO>  GetVilla(int id)
+        {
+            //19. add validation for bad request 400
+            if (id == 0)
+            {
+                _logger.LogError("Get Villa Error with Id: " + id);
+                return BadRequest(); //400
+            }
+
+
+test. WHEN RUNNING, change responses code success 200 to media type application/jason aND RERUN TO GET RESPONSES EXPECTED.
+See below to make text work in swagger
+
+MagicVilla_VillaAPI/Program.cs
+
+    //30. content negotiations
+    builder.Services.AddControllers(option => {
+        //option.ReturnHttpNotAcceptable = true; // commented out in 31 so swagger still works with plain text
+    }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 
 
 

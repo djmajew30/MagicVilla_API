@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddControllers().AddNewtonsoftJson();
 //30. content negotiations
 builder.Services.AddControllers(option => {
-    option.ReturnHttpNotAcceptable = true;
+    //option.ReturnHttpNotAcceptable = true; // commented out in 31 so swagger still works with plain text
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddControllers();

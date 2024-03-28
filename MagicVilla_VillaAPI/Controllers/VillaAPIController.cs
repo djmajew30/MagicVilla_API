@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
+
+
+
+
+
+
     //Can use the generic below to automatically route to Controller prefix:
     //not ideal if you need to change controller name
     //[Route("api/[controller]")] is the same as [Route("api/VillaAPI")] as It's in the VillaAPIController
@@ -14,10 +20,22 @@ namespace MagicVilla_VillaAPI.Controllers
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
+
+        //31. Logger dependency injection
+        private readonly ILogger<VillaAPIController> _logger;
+
+        public VillaAPIController(ILogger<VillaAPIController> logger)
+        {
+            _logger = logger;
+        }
+
+
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
+            _logger.LogInformation("Getting all villas");
             return Ok(VillaStore.villaList); //200 success
         }
 
@@ -32,6 +50,7 @@ namespace MagicVilla_VillaAPI.Controllers
             //19. add validation for bad request 400
             if (id == 0)
             {
+                _logger.LogError("Get Villa Error with Id: " + id);
                 return BadRequest(); //400
             }
 
