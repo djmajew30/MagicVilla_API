@@ -51,14 +51,35 @@ MagicVilla_VillaAPI/Program.cs
 
 
 
+32. Logging to a file using Serilog. we will be reverting these changes within the lesson
+
+Install serilog.aspnetcore
+Install serilog.sinks.file
+
+register in 
+MagicVilla_VillaAPI/Program.cs
+
+    using Serilog;
+    ...
+    builder.Services.AddSwaggerGen();
+
+    //32. serilog to log to file
+    Log.Logger = new LoggerConfiguration().MinimumLevel.Debug() //use info or error for less
+        .WriteTo.File("log/villaLogs.txt",rollingInterval:RollingInterval.Day).CreateLogger();
+
+    //to tell program to use serilog instead on built in logger:
+    builder.Host.UseSerilog();
+
+    var app = builder.Build();
+
+we will be reverting these changes within the lesson
+uninstall nuget packages
 
 
-32. Changing Logger with Dependency Injection - Serilog
-
-
-
-
-
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+MagicVilla_VillaAPI/Logging/Logging.cs
+MagicVilla_VillaAPI/Logging/ILogging.cs
+MagicVilla_VillaAPI/Logging/LoggingV2.cs
 
 
 33. Dependency Injection - Custom Logging
