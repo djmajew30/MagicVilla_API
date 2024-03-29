@@ -16,30 +16,32 @@ namespace MagicVilla_VillaAPI.Controllers
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
-
-        ////31. Logger dependency injection- DEFAULT logger (updated in lesson 33)
-        //private readonly ILogger<VillaAPIController> _logger;
-
-        //public VillaAPIController(ILogger<VillaAPIController> logger)
+        ////33. Custom logger instead of default logger (changes reverted in same lesson)
+        //private readonly ILogging _logger;
+        //public VillaAPIController(ILogging logger)
         //{
         //    _logger = logger;
         //}
 
-        //33. Custom logger instead of default logger
-        private readonly ILogging _logger;
-        public VillaAPIController(ILogging logger)
+
+        //31. Logger dependency injection- DEFAULT logger 
+        private readonly ILogger<VillaAPIController> _logger;
+
+        public VillaAPIController(ILogger<VillaAPIController> logger)
         {
             _logger = logger;
         }
+
 
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
-            //_logger.LogInformation("Getting all villas");
-            _logger.Log("Getting all villas", "");
-            _logger.Log("Getting all villas", "warning"); //test warning loggingv2
+            ////33. custom logger, changes reverted
+            //_logger.Log("Getting all villas", "");
+            //_logger.Log("Getting all villas", "warning"); //test warning loggingv2
+            _logger.LogInformation("Getting all villas");
             return Ok(VillaStore.villaList); //200 success
         }
 
@@ -54,8 +56,9 @@ namespace MagicVilla_VillaAPI.Controllers
             //19. add validation for bad request 400
             if (id == 0)
             {
-                //_logger.LogError("Get Villa Error with Id: " + id);
-                _logger.Log("Get Villa Error with Id: " + id, "error");
+                ////33. custom logger, changes reverted
+                //_logger.Log("Get Villa Error with Id: " + id, "error");
+                _logger.LogError("Get Villa Error with Id: " + id);
                 return BadRequest(); //400
             }
 

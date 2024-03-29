@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen();
 
 //33. custom logger instead of default logger
 //builder.Services.AddSingleton<ILogging, Logging>();
-builder.Services.AddSingleton<ILogging, LoggingV2>();
+//builder.Services.AddSingleton<ILogging, LoggingV2>();
 
 var app = builder.Build();
 

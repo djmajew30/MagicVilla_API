@@ -167,6 +167,8 @@ MagicVilla_VillaAPI/Logging/LoggingV2.cs
 builder.Services.AddSingleton<ILogging, LoggingV2>();
 
 TO REVERT
+https://github.com/bhrugen/MagicVilla_API/commit/c2d340e774998dbfbb4e94574ff52abbf2ad32ff
+
 
 34. Entity Framework Core Database Models
 
