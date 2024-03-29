@@ -170,12 +170,9 @@ TO REVERT
 https://github.com/bhrugen/MagicVilla_API/commit/c2d340e774998dbfbb4e94574ff52abbf2ad32ff
 
 
-34. Entity Framework Core Database Models
-
-
-
-
-
+34. Entity Framework Core Database Models, what do we want in our table
+MagicVilla_VillaAPI/Models/Villa.cs
+MagicVilla_VillaAPI/Models/Dto/VillaDTO.cs
 
 
 35. NugetPackages for Entity Framework Core
