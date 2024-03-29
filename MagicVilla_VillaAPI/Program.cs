@@ -1,5 +1,7 @@
 //using Serilog;
 
+using MagicVilla_VillaAPI.Logging;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,8 +25,10 @@ builder.Services.AddSwaggerGen();
 ////to tell program to use serilog instead on built in logger:
 //builder.Host.UseSerilog();
 
-//builder.Services.AddSingleton<ILogging, LoggingV2>();
 
+//33. custom logger instead of default logger
+//builder.Services.AddSingleton<ILogging, Logging>();
+builder.Services.AddSingleton<ILogging, LoggingV2>();
 
 var app = builder.Build();
 

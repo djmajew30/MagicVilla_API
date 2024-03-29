@@ -1,4 +1,5 @@
 ﻿using MagicVilla_VillaAPI.Data;
+using MagicVilla_VillaAPI.Logging;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -8,11 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace MagicVilla_VillaAPI.Controllers
 {
 
-
-
-
-
-
     //Can use the generic below to automatically route to Controller prefix:
     //not ideal if you need to change controller name
     //[Route("api/[controller]")] is the same as [Route("api/VillaAPI")] as It's in the VillaAPIController
@@ -21,36 +17,45 @@ namespace MagicVilla_VillaAPI.Controllers
     public class VillaAPIController : ControllerBase
     {
 
-        //31. Logger dependency injection
-        private readonly ILogger<VillaAPIController> _logger;
+        ////31. Logger dependency injection- DEFAULT logger (updated in lesson 33)
+        //private readonly ILogger<VillaAPIController> _logger;
 
-        public VillaAPIController(ILogger<VillaAPIController> logger)
+        //public VillaAPIController(ILogger<VillaAPIController> logger)
+        //{
+        //    _logger = logger;
+        //}
+
+        //33. Custom logger instead of default logger
+        private readonly ILogging _logger;
+        public VillaAPIController(ILogging logger)
         {
             _logger = logger;
         }
-
 
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
-            _logger.LogInformation("Getting all villas");
+            //_logger.LogInformation("Getting all villas");
+            _logger.Log("Getting all villas", "");
+            _logger.Log("Getting all villas", "warning"); //test warning loggingv2
             return Ok(VillaStore.villaList); //200 success
         }
 
-        [HttpGet("{id:int}", Name ="GetVilla")]
+        [HttpGet("{id:int}", Name = "GetVilla")]
         //these are to document/remove undocumented
         //[ProducesResponseType(200, Type =typeof(VillaDTO))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<VillaDTO>  GetVilla(int id)
+        public ActionResult<VillaDTO> GetVilla(int id)
         {
             //19. add validation for bad request 400
             if (id == 0)
             {
-                _logger.LogError("Get Villa Error with Id: " + id);
+                //_logger.LogError("Get Villa Error with Id: " + id);
+                _logger.Log("Get Villa Error with Id: " + id, "error");
                 return BadRequest(); //400
             }
 
@@ -70,7 +75,7 @@ namespace MagicVilla_VillaAPI.Controllers
         //[ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<VillaDTO> CreateVilla([FromBody]VillaDTO villaDTO)
+        public ActionResult<VillaDTO> CreateVilla([FromBody] VillaDTO villaDTO)
         {
             ////This is needed if we didn't use [ApiController] annotation in controller
             //if (!ModelState.IsValid)
@@ -95,14 +100,14 @@ namespace MagicVilla_VillaAPI.Controllers
             //id should be 0
             if (villaDTO.Id > 0)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError); 
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             //Get/assign new id of the villa object, max id + 1 
             villaDTO.Id = VillaStore.villaList.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
             VillaStore.villaList.Add(villaDTO);
 
-            return CreatedAtRoute("GetVilla",new { id = villaDTO.Id }, villaDTO); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
+            return CreatedAtRoute("GetVilla", new { id = villaDTO.Id }, villaDTO); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]

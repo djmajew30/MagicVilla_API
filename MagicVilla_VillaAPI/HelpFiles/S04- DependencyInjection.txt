@@ -51,7 +51,7 @@ MagicVilla_VillaAPI/Program.cs
 
 
 
-32. Logging to a file using Serilog. we will be reverting these changes within the lesson
+32. WILL REVERT THESE CHANGES. Logging to a file using Serilog.
 
 Install serilog.aspnetcore
 Install serilog.sinks.file
@@ -76,19 +76,97 @@ we will be reverting these changes within the lesson
 uninstall nuget packages
 
 
-MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
-MagicVilla_VillaAPI/Logging/Logging.cs
+33. WILL REVERT THESE CHANGES. Custom Logger, Interface, and services to container instead of default logger. Dependency Injection - Custom Logging
+https://github.com/bhrugen/MagicVilla_API/commit/7cfc7f7b9dc152bd94924f30fb2044e30eef339a#diff-7639ff51b336ce6a0f764af782bd6e5fd770cd1a636fea0a231b9794c90ec737
+
 MagicVilla_VillaAPI/Logging/ILogging.cs
+MagicVilla_VillaAPI/Logging/Logging.cs
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+MagicVilla_VillaAPI/Program.cs
 MagicVilla_VillaAPI/Logging/LoggingV2.cs
 
+Create new Logging folder
+Create Interface
+MagicVilla_VillaAPI/Logging/ILogging.cs
 
-33. Dependency Injection - Custom Logging
+    public interface ILogging
+    {
+        public void Log(string message, string type);
+    }
+
+MagicVilla_VillaAPI/Logging/Logging.cs
+
+        public void Log(string message, string type)
+        {
+            if (type == "error")
+            {
+                Console.WriteLine("ERROR - " + message);
+            }
+            else
+            {
+                Console.WriteLine(message);
+            }
+        }
+
+Implement in 
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+
+    public class VillaAPIController : ControllerBase
+    {
+
+        ////31. Logger dependency injection- DEFAULT logger (updated in lesson 33)
+        //private readonly ILogger<VillaAPIController> _logger;
+
+        //public VillaAPIController(ILogger<VillaAPIController> logger)
+        //{
+        //    _logger = logger;
+        //}
+
+        //33. Custom logger instead of default logger
+        private readonly ILogging _logger;
+        public VillaAPIController(ILogging logger)
+        {
+            _logger = logger;
+        }
+
+        public ActionResult<IEnumerable<VillaDTO>> GetVillas()
+        {
+            //_logger.LogInformation("Getting all villas");
+            _logger.Log("Getting all villas", "");
+            return Ok(VillaStore.villaList); //200 success
+        }...
+        public ActionResult<VillaDTO> GetVilla(int id)
+        {...
+            if (id == 0)
+            {
+                //_logger.LogError("Get Villa Error with Id: " + id);
+                _logger.Log("Get Villa Error with Id: " + id, "error");
+                return BadRequest(); //400
+            }
+
+define service in 
+MagicVilla_VillaAPI/Program.cs
+
+    ...
+    builder.Services.AddSwaggerGen();
+
+    //33. custom logger instead of default logger
+    builder.Services.AddSingleton<ILogging, Logging>();
+
+    var app = builder.Build();
+    ...
 
 
+Benefit of using 
+builder.Services.AddSingleton<ILogging, Logging>();
+is that if you want to change the loggin implementation, all you need to do is replace it with the new one. For example:
+MagicVilla_VillaAPI/Logging/LoggingV2.cs
 
+//33. custom logger instead of default logger
+//builder.Services.AddSingleton<ILogging, Logging>();
+builder.Services.AddSingleton<ILogging, LoggingV2>();
 
-
-
+TO REVERT
 
 34. Entity Framework Core Database Models
 
