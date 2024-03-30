@@ -176,7 +176,9 @@ MagicVilla_VillaAPI/Models/Dto/VillaDTO.cs
 
 
 35. NugetPackages for Entity Framework Core
-
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
 
 
 
