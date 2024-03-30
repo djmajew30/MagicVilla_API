@@ -211,6 +211,12 @@ MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
 add connection string
 MagicVilla_VillaAPI/appsettings.json
 
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultSQLConnection": "Server=P17-PF2PTX0W\\SQLEXPRESS;Database=Magic_VillaAPI;TrustServerCertificate=True;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
 
 38. Use Connection String and link ApplicationDbContext and register to dependency injection, finally confugure EF core
 
@@ -236,12 +242,11 @@ MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
         }
 
 
-39. Create Villa Table
+39. Create Villa Table using PM console. use project with applicationdbcontext in it
 
-
-
-
-
+in PM console
+add-migration AddVillaTable
+update-database
 
 
 40. Seed Villa Table with records
