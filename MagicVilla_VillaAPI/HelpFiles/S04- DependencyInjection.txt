@@ -181,16 +181,10 @@ Microsoft.EntityFrameworkCore.SqlServer
 Microsoft.EntityFrameworkCore.Tools
 
 
-
-
-
-
 36. SQL Server Connection Server Name
-
-
-
-
-
+can connect to 
+(localdb)\mssqllocaldb
+P17-PF2PTX0W\SQLEXPRESS
 
 
 37. Connection String and DbSet Entity
