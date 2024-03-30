@@ -187,15 +187,33 @@ can connect to
 P17-PF2PTX0W\SQLEXPRESS
 
 
-37. Connection String and DbSet Entity
+37. Creat Connection String, DbSet Entity, and ApplicationDbContext
+
+MagicVilla_VillaAPI/Models/Villa.cs
+MagicVilla_VillaAPI/appsettings.json
+MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
+
+to tell EF this is a identity key column
+MagicVilla_VillaAPI/Models/Villa.cs
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+Create ApplicationDbContext
+MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
+
+    public class ApplicationDbContext : DbContext
+    {
+        public DbSet<Villa> Villas { get; set; } //table name is Villas
+    }
+
+add connection string
+MagicVilla_VillaAPI/appsettings.json
 
 
+38. Use Connection String and link ApplicationDbContext and register to dependency injection
 
-
-
-
-
-38. Use Connection String
 
 
 
