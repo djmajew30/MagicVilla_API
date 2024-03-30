@@ -212,13 +212,28 @@ add connection string
 MagicVilla_VillaAPI/appsettings.json
 
 
-38. Use Connection String and link ApplicationDbContext and register to dependency injection
+38. Use Connection String and link ApplicationDbContext and register to dependency injection, finally confugure EF core
+
+MagicVilla_VillaAPI/Program.cs
+
+    // Add services to the container.
+
+    //38. use connections string
+    builder.Services.AddDbContext<ApplicationDbContext>(option =>
+    {
+        option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+    });
 
 
+MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
 
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
 
-
-
+        }
 
 
 39. Create Villa Table

@@ -1,15 +1,25 @@
 //using Serilog;
 
+using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Logging;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//38. use connections string
+builder.Services.AddDbContext<ApplicationDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+});
+
+
 //added in 27. patch nuget packages
 //builder.Services.AddControllers().AddNewtonsoftJson();
 //30. content negotiations
-builder.Services.AddControllers(option => {
+builder.Services.AddControllers(option =>
+{
     //option.ReturnHttpNotAcceptable = true; // commented out in 31 so swagger still works with plain text
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 
