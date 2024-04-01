@@ -1,0 +1,69 @@
+﻿85. Add Models for Login and Registeration
+
+
+
+
+
+
+86. Add User Repository
+
+
+
+
+
+
+87. Implement User Repository - Register
+
+
+
+
+
+
+88. Implement User Repository - Login Part 1
+
+
+
+
+
+
+89. Generate Token on Successful Login
+
+
+
+
+
+
+90. User Controller
+
+
+
+
+
+
+91. Login and Register in Action
+
+
+
+
+
+
+92. Secure API Endpoints
+
+
+
+
+
+
+93. Authentication in Action
+
+
+
+
+
+
+94. Swagger and Bearer in Action
+
+
+
+
+

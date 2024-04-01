@@ -1,0 +1,188 @@
+﻿58. Setup MVC Web Project
+
+
+
+
+
+
+59. Web Project DTO's and API Models
+
+
+
+
+
+
+60. AutoMapper
+
+
+
+
+
+
+61. Add API URL in AppSettings
+
+
+
+
+
+
+62. Base Service for API
+
+
+
+
+
+
+63. Adding Villa Service
+
+
+
+
+
+
+64. Calling Villa API
+
+
+
+
+
+
+65. Display all Villa List
+
+
+
+
+
+
+66. Create Villa UI
+
+
+
+
+
+
+67. Disable NULLABLE - IMPORTANT
+
+
+
+
+
+
+68. Update Villa Action Methods
+
+
+
+
+
+
+69. Update VIlla UI
+
+
+
+
+
+
+70. Delete Villa
+
+
+
+
+
+
+71. Add VillaNumberService
+
+
+
+
+
+
+72. Getting Villa Numbers
+
+
+
+
+
+
+73. Include Villa when retireving Villa Number
+
+
+
+
+
+
+74. Bootswatch Theme
+
+
+
+
+
+
+75. Villa Home Page
+
+
+
+
+
+
+76. Move Images
+
+
+
+
+
+
+77. Villa Number Assignment
+
+
+
+
+
+
+78. Create Villa Number GET
+
+
+
+
+
+
+79. Create Villa POST
+
+
+
+
+
+
+80. Special Validation and Base Service Update
+
+
+
+
+
+
+81. Display API Error Messages
+
+
+
+
+
+
+82. Update and Delete Action Method for Villa Number
+
+
+
+
+
+
+83. Update and Delete Villa Number
+
+
+
+
+
+
+84. Sweet Alert
+
+
+
+
+

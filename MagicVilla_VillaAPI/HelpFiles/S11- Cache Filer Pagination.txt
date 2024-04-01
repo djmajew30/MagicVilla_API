@@ -1,0 +1,55 @@
+﻿113. Caching Request
+
+
+
+
+
+
+114. Caching Profile
+
+
+
+
+
+
+115. Filters in API
+
+
+
+
+
+
+116. Seach Villa Name
+
+
+
+
+
+
+117. Pagination in API
+
+
+
+
+
+
+118. Add Pagination to Response Header
+
+
+
+
+
+
+119. Status Code and IsSuccess
+
+
+
+
+
+
+120. Bug Fixing
+
+
+
+
+

@@ -1,0 +1,56 @@
+﻿95. Add DTOs for Login and Registeration
+
+
+
+
+
+
+96. Add Auth Service
+
+
+
+
+
+
+97. Auth Controller Action Methods
+
+
+
+
+
+
+
+98. Login and Register View
+
+
+
+
+
+
+99. Auth Controller Action Methods
+
+
+
+
+
+
+100. NavBar Display
+
+
+
+
+
+
+101. Authentication in Web Project
+
+
+
+
+
+
+102. Pass Token to API from Web Project
+
+
+
+
+
