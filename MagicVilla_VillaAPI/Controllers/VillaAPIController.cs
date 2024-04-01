@@ -81,7 +81,7 @@ namespace MagicVilla_VillaAPI.Controllers
         //[ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<VillaDTO> CreateVilla([FromBody] VillaDTO villaDTO)
+        public ActionResult<VillaDTO> CreateVilla([FromBody] VillaCreateDTO villaDTO)
         {
             ////This is needed if we didn't use [ApiController] annotation in controller
             //if (!ModelState.IsValid)
@@ -103,11 +103,12 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest(villaDTO);
             }
 
-            //id should be 0
-            if (villaDTO.Id > 0)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            ////id should be 0
+            ////removed 44. VillaCreateDTO no longer uses Id
+            //if (villaDTO.Id > 0)
+            //{
+            //    return StatusCode(StatusCodes.Status500InternalServerError);
+            //}
 
             ////Get/assign new id of the villa object, max id + 1
             ////removed lesson 41. no longer needed with EF core
@@ -120,7 +121,6 @@ namespace MagicVilla_VillaAPI.Controllers
             {
                 Amenity = villaDTO.Amenity,
                 Details = villaDTO.Details,
-                Id = villaDTO.Id,
                 ImageUrl = villaDTO.ImageUrl,
                 Name = villaDTO.Name,
                 Occupancy = villaDTO.Occupancy,
@@ -128,10 +128,11 @@ namespace MagicVilla_VillaAPI.Controllers
                 Sqft = villaDTO.Sqft
             };
 
-            _db.Villas.Add(model);
+            _db.Villas.Add(model); //this step populates id field
             _db.SaveChanges();
 
-            return CreatedAtRoute("GetVilla", new { id = villaDTO.Id }, villaDTO); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
+            //return CreatedAtRoute("GetVilla", new { id = villaDTO.Id }, villaDTO); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
+            return CreatedAtRoute("GetVilla", new { id = model.Id }, model); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -160,7 +161,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [HttpPut("{id:int}", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateVilla(int id, [FromBody] VillaDTO villaDTO)
+        public IActionResult UpdateVilla(int id, [FromBody] VillaUpdateDTO villaDTO)
         {
             if (villaDTO == null || id != villaDTO.Id)
             {
@@ -195,7 +196,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaDTO> patchDTO)
+        public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDTO> patchDTO)
         {
             //validation
             if (patchDTO == null || id == 0)
@@ -207,7 +208,7 @@ namespace MagicVilla_VillaAPI.Controllers
             var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
 
             //convert villa to villadto
-            VillaDTO villaDTO = new()
+            VillaUpdateDTO villaDTO = new()
             {
                 Amenity = villa.Amenity,
                 Details = villa.Details,

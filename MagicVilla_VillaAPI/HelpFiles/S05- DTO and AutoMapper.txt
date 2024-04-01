@@ -1,7 +1,13 @@
-﻿44. Seperate DTO for Create and Update
+﻿44. Separate DTO for Create and Update
+https://github.com/bhrugen/MagicVilla_API/commit/2c3ed1ebcb7f669185886b67a5209e20faa9fd23?diff=split&w=0#diff-7639ff51b336ce6a0f764af782bd6e5fd770cd1a636fea0a231b9794c90ec737
+If validation or fields are different for each, such as not needing an id for create or image must be present in updating
 
+Create new DTO's
+MagicVilla_VillaAPI/Models/Dto/VillaCreateDTO.cs
+MagicVilla_VillaAPI/Models/Dto/VillaUpdateDTO.cs
 
-
+Update controller
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
 45. Async Methods
