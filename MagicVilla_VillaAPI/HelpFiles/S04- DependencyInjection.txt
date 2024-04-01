@@ -249,17 +249,28 @@ add-migration AddVillaTable
 update-database
 
 
-40. Seed Villa Table with records
+40. Seed Villa Table with records in MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
+Snippet in C:\DEV_Training\C#\Udemy\RESTful Web API - The Complete Guide (NET7 API) Part 1\Resources\Course Content\Snippets\Section 4
+Seed in MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder){}
 
+PM console:
+add-migration SeedVillaTable
+update-database
 
-
-
+to update migration
+just add another one, for example add-migration SeedVillaTableWithCreatedDate
 
 
 41. Use ApplicationDbContext in APIController
 
 
+
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+
+Now you can delete 
+MagicVilla_VillaAPI/Data/VillaStore.cs
 
 
 
