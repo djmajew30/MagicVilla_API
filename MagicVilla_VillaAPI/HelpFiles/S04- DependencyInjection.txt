@@ -272,25 +272,54 @@ MagicVilla_VillaAPI/Data/VillaStore.cs
 We want to replcae VillaStore with ApplicationDbContext 
 MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
+        private readonly ILogger<VillaAPIController> _logger;
         private readonly ApplicationDbContext _db;
-        public VillaAPIController(ApplicationDbContext db)
+
+        public VillaAPIController(ApplicationDbContext db, ILogger<VillaAPIController> logger)
         {
             _db = db;
+            _logger = logger;
         }
 
 Change all VillaStore.villaList to _db.Villas or _db.Villas.ToList()
 
 
-42. Demo - Entity Frameowkr Core CRUD in Action
+42. Demo - Entity Framework Core CRUD in Action
+use 43. AsNoTracking in Action for PUT and PATCH to work
 
+POST- do not use an id
+PUT use ID 6
+{
+    "id": 6,
+    "name": "77Luxury Pool Villa",
+    "details": "77Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+    "rate": 7777,
+    "sqft": 7777,
+    "occupancy": 77777,
+    "imageUrl": "ht777777tps://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa4.jpg",
+    "amenity": ""
+}
 
+PATCH- id 6, use it
+[
+  {
+  "path": "/name",
+    "op": "replace",
+    "value": "finale 77"
+  }
+]
 
+43. AsNoTracking in Action for PUT and PATCH to work
 
-
-
-
-43. AsNoTracking in Action
-
+        public IActionResult UpdateVilla(int id, [FromBody] VillaDTO villaDTO)
+        {
+            ...
+            //get villa from list
+            var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            ...
+            //41. convert villadto to object villa
+            Villa model = new()
+            {...
 
 
 

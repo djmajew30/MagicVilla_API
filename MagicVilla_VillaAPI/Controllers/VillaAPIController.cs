@@ -5,6 +5,7 @@ using MagicVilla_VillaAPI.Models.Dto;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
@@ -16,12 +17,16 @@ namespace MagicVilla_VillaAPI.Controllers
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
+
+        //31. Logger dependency injection- DEFAULT logger 
+        private readonly ILogger<VillaAPIController> _logger;
         //41.dependency injection to use ef data
         private readonly ApplicationDbContext _db;
 
-        public VillaAPIController(ApplicationDbContext db)
+        public VillaAPIController(ApplicationDbContext db, ILogger<VillaAPIController> logger)
         {
             _db = db;
+            _logger = logger;
         }
 
         ////33. Custom logger instead of default logger (changes reverted in same lesson)
@@ -30,16 +35,6 @@ namespace MagicVilla_VillaAPI.Controllers
         //{
         //    _logger = logger;
         //}
-
-
-        //31. Logger dependency injection- DEFAULT logger 
-        private readonly ILogger<VillaAPIController> _logger;
-
-        public VillaAPIController(ILogger<VillaAPIController> logger)
-        {
-            _logger = logger;
-        }
-
 
 
         [HttpGet]
@@ -173,7 +168,7 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             //get villa from list
-            var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
+            var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
 
             ////Update/Edit. removed lesson 41.
             //villa.Name = villaDTO.Name;
@@ -209,7 +204,7 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             //get vill a from list of villas
-            var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
+            var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
 
             //convert villa to villadto
             VillaDTO villaDTO = new()
