@@ -10,7 +10,23 @@ Update controller
 MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
-45. Async Methods
+45. Async Methods when working with EF core
+https://github.com/bhrugen/MagicVilla_API/commit/ccb9c106da7ff96c30d5261d05c89f5325c3733f
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+
+anywhere we add Async method , add await to the beginning
+
+change return Ok(_db.Villas.ToList()); to return Ok(await _db.Villas.ToListAsync());
+add task to methods:
+change ActionResult<VillaDTO> to async Task<ActionResult<VillaDTO>>
+change IActionResult to async Task<IActionResult>
+change SaveChanges() to SaveChangesAsync()
+change
+_db.Villas.FirstOrDefault(u => u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
+to
+await _db.Villas.FirstOrDefaultAsync(u => u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
+change _db.Villas.Add(model); to await _db.Villas.AddAsync(model);
+change _db.SaveChanges(); to await _db.SaveChangesAsync();
 
 
 

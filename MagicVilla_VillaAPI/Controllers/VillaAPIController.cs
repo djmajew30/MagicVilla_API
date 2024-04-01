@@ -39,13 +39,13 @@ namespace MagicVilla_VillaAPI.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<VillaDTO>> GetVillas()
+        public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
         {
             ////33. custom logger, changes reverted
             //_logger.Log("Getting all villas", "");
             //_logger.Log("Getting all villas", "warning"); //test warning loggingv2
             _logger.LogInformation("Getting all villas");
-            return Ok(_db.Villas.ToList()); //200 success
+            return Ok( await _db.Villas.ToListAsync()); //200 success
         }
 
         [HttpGet("{id:int}", Name = "GetVilla")]
@@ -54,7 +54,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<VillaDTO> GetVilla(int id)
+        public async Task<ActionResult<VillaDTO>> GetVilla(int id)
         {
             //19. add validation for bad request 400
             if (id == 0)
@@ -65,7 +65,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest(); //400
             }
 
-            var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
+            var villa = await _db.Villas.FirstOrDefaultAsync(u => u.Id == id);
 
             //19. add validation for notfound 404
             if (villa == null)
@@ -81,7 +81,7 @@ namespace MagicVilla_VillaAPI.Controllers
         //[ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<VillaDTO> CreateVilla([FromBody] VillaCreateDTO villaDTO)
+        public async Task<ActionResult<VillaDTO>> CreateVilla([FromBody] VillaCreateDTO villaDTO)
         {
             ////This is needed if we didn't use [ApiController] annotation in controller
             //if (!ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace MagicVilla_VillaAPI.Controllers
             //}
 
             //24. Custom ModelState Validation, unique/distinct villa name
-            if (_db.Villas.FirstOrDefault(u => u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
+            if (await _db.Villas.FirstOrDefaultAsync(u => u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Villa already Exists!"); //key:value. Key must be unique
                 return BadRequest(ModelState);
@@ -128,8 +128,8 @@ namespace MagicVilla_VillaAPI.Controllers
                 Sqft = villaDTO.Sqft
             };
 
-            _db.Villas.Add(model); //this step populates id field
-            _db.SaveChanges();
+            await _db.Villas.AddAsync(model); //this step populates id field
+            await _db.SaveChangesAsync();
 
             //return CreatedAtRoute("GetVilla", new { id = villaDTO.Id }, villaDTO); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
             return CreatedAtRoute("GetVilla", new { id = model.Id }, model); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
@@ -140,7 +140,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:int}", Name = "DeleteVilla")]
         //use IActionResult instead of ActionResult becuase you do not need to define the return type
-        public IActionResult DeleteVilla(int id)
+        public async Task<IActionResult> DeleteVilla(int id)
         {
             if (id == 0)
             {
@@ -148,20 +148,20 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             //get villa to delete
-            var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
+            var villa = await _db.Villas.FirstOrDefaultAsync(u => u.Id == id);
             if (villa == null)
             {
                 return NotFound();
             }
             _db.Villas.Remove(villa);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return NoContent(); //204
         }
 
         [HttpPut("{id:int}", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateVilla(int id, [FromBody] VillaUpdateDTO villaDTO)
+        public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDTO villaDTO)
         {
             if (villaDTO == null || id != villaDTO.Id)
             {
@@ -189,14 +189,14 @@ namespace MagicVilla_VillaAPI.Controllers
                 Sqft = villaDTO.Sqft
             };
             _db.Villas.Update(model);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDTO> patchDTO)
+        public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDTO> patchDTO)
         {
             //validation
             if (patchDTO == null || id == 0)
@@ -205,7 +205,7 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             //get vill a from list of villas
-            var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            var villa = await _db.Villas.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
 
             //convert villa to villadto
             VillaUpdateDTO villaDTO = new()
@@ -243,7 +243,7 @@ namespace MagicVilla_VillaAPI.Controllers
             };
 
             _db.Villas.Update(model);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
             //validation
             if (!ModelState.IsValid)
