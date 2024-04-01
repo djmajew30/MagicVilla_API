@@ -311,16 +311,14 @@ PATCH- id 6, use it
 
 43. AsNoTracking in Action for PUT and PATCH to work
 
-        public IActionResult UpdateVilla(int id, [FromBody] VillaDTO villaDTO)
+        public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaDTO> patchDTO)
         {
             ...
-            //get villa from list
+            //get vill a from list of villas
             var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
+
+            //convert villa to villadto
+            VillaDTO villaDTO = new()
             ...
-            //41. convert villadto to object villa
-            Villa model = new()
-            {...
-
-
 
 

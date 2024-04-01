@@ -167,8 +167,8 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest();
             }
 
-            //get villa from list
-            var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            //get villa from list. removed lesson 41.
+            //var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
 
             ////Update/Edit. removed lesson 41.
             //villa.Name = villaDTO.Name;
