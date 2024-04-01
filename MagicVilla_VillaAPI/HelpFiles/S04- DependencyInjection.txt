@@ -264,16 +264,21 @@ just add another one, for example add-migration SeedVillaTableWithCreatedDate
 
 
 41. Use ApplicationDbContext in APIController
-
-
-
-MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+https://github.com/bhrugen/MagicVilla_API/commit/4248e38ffb7b2f76381bf11dfb469ed8963cb578#diff-7639ff51b336ce6a0f764af782bd6e5fd770cd1a636fea0a231b9794c90ec737
 
 Now you can delete 
 MagicVilla_VillaAPI/Data/VillaStore.cs
 
+We want to replcae VillaStore with ApplicationDbContext 
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
+        private readonly ApplicationDbContext _db;
+        public VillaAPIController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
 
+Change all VillaStore.villaList to _db.Villas or _db.Villas.ToList()
 
 
 42. Demo - Entity Frameowkr Core CRUD in Action
