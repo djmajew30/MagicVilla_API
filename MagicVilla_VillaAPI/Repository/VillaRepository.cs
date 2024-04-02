@@ -1,23 +1,11 @@
-﻿48. Add Villa Repository Interface to manage/interact with data
-add folders
-add interface
-MagicVilla_VillaAPI/Repository/IRepostiory/IVillaRepository.cs
+﻿using MagicVilla_VillaAPI.Data;
+using MagicVilla_VillaAPI.Models;
+using MagicVilla_VillaAPI.Repository.IRepostiory;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
-    public interface IVillaRepository
-    {
-        Task<List<Villa>> GetAll(Expression<Func<Villa, bool>> filter = null);
-        Task<Villa> Get(Expression<Func<Villa, bool>> filter = null, bool tracked = true);
-        Task Create(Villa entity);
-        Task Remove(Villa entity);
-        Task Save();
-    }
-
-
-49. Villa Repository Implementation- IMPORTANT LESSON
-
-Implement the interface. add class
-MagicVilla_VillaAPI/Repository/VillaRepository.cs
-
+namespace MagicVilla_VillaAPI.Repository
+{
     public class VillaRepository : IVillaRepository //ctrl + . to implement
     {
         //add applicationDBContext
@@ -75,60 +63,4 @@ MagicVilla_VillaAPI/Repository/VillaRepository.cs
             await _db.SaveChangesAsync();
         }
     }
-
-
-50. Async Repository in Action
-
-
-
-
-
-
-51. Repository CleanUp
-
-
-
-
-
-
-52. API Response
-
-
-
-
-
-
-53. Standard API Response
-
-
-
-
-
-
-54. Villa Number Models
-
-
-
-
-
-
-55. Assignment 1 - Villa Number API Endpoints
-
-
-
-
-
-
-56. Add Foreign Key Reference
-
-
-
-
-
-
-57. CRUD Villa Number DTO with Villa ID
-
-
-
-
-
+}
