@@ -1,12 +1,22 @@
-﻿48. Add Villa Repository Interface
+﻿48. Add Villa Repository Interface to manage/interact with data
+add folders
+add interface
+MagicVilla_VillaAPI/Repository/IRepostiory/IVillaRepository.cs
 
-
-
-
+    public interface IVillaRepository
+    {
+        Task<List<Villa>> GetAll(Expression<Func<Villa, bool>> filter = null);
+        Task<Villa> Get(Expression<Func<Villa, bool>> filter = null, bool tracked = true);
+        Task Create(Villa entity);
+        Task Remove(Villa entity);
+        Task Save();
+    }
 
 
 49. Villa Repository Implementation
 
+Implement the interface
+MagicVilla_VillaAPI/Repository/VillaRepository.cs
 
 
 
