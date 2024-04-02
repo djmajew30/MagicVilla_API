@@ -3,6 +3,7 @@ using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Logging;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
+using MagicVilla_VillaAPI.Repository.IRepostiory;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -21,23 +22,19 @@ namespace MagicVilla_VillaAPI.Controllers
 
         //31. Logger dependency injection- DEFAULT logger 
         private readonly ILogger<VillaAPIController> _logger;
-        //41.dependency injection to use ef data
-        private readonly ApplicationDbContext _db;
+        ////41.dependency injection to use ef data. removed 50. repository
+        //private readonly ApplicationDbContext _db;
+        //50 repository
+        private readonly IVillaRepository _dbVilla;
         //47 automapper
         private readonly IMapper _mapper;
-        public VillaAPIController(ApplicationDbContext db, ILogger<VillaAPIController> logger, IMapper mapper)
+        public VillaAPIController(IVillaRepository dbVilla, ILogger<VillaAPIController> logger, IMapper mapper) //(ApplicationDbContext
         {
-            _db = db;
+            //_db = db;
+            _dbVilla = dbVilla;
             _logger = logger;
             _mapper = mapper;
         }
-
-        ////33. Custom logger instead of default logger (changes reverted in same lesson)
-        //private readonly ILogging _logger;
-        //public VillaAPIController(ILogging logger)
-        //{
-        //    _logger = logger;
-        //}
 
 
         [HttpGet]
@@ -52,7 +49,7 @@ namespace MagicVilla_VillaAPI.Controllers
             //return Ok( await _db.Villas.ToListAsync()); //200 success
             //47 automapper
             //get villa list
-            IEnumerable<Villa> villaList = await _db.Villas.ToListAsync();
+            IEnumerable<Villa> villaList = await _dbVilla.GetAllAsync();
             //convert to villaDTO
             return Ok(_mapper.Map<List<VillaDTO>>(villaList)); //Map<destination type>(object to convert) //<output>(input)
         }
@@ -74,7 +71,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest(); //400
             }
 
-            var villa = await _db.Villas.FirstOrDefaultAsync(u => u.Id == id);
+            var villa = await _dbVilla.GetAsync(u => u.Id == id);
 
             //19. add validation for notfound 404
             if (villa == null)
@@ -100,7 +97,7 @@ namespace MagicVilla_VillaAPI.Controllers
             //}
 
             //24. Custom ModelState Validation, unique/distinct villa name
-            if (await _db.Villas.FirstOrDefaultAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
+            if (await _dbVilla.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Villa already Exists!"); //key:value. Key must be unique
                 return BadRequest(ModelState);
@@ -141,8 +138,9 @@ namespace MagicVilla_VillaAPI.Controllers
             //47. automapper. convert villaDTO to villa object
             Villa model = _mapper.Map<Villa>(createDTO); //<output>(input)
 
-            await _db.Villas.AddAsync(model); //this step populates id field
-            await _db.SaveChangesAsync();
+            //await _db.Villas.AddAsync(model); //this step populates id field
+            //await _db.SaveChangesAsync();
+            await _dbVilla.CreateAsync(model); //lesson 50 repo
 
             //return CreatedAtRoute("GetVilla", new { id = villaDTO.Id }, villaDTO); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
             return CreatedAtRoute("GetVilla", new { id = model.Id }, model); //returns location: https://localhost:7245/api/VillaAPI/3 in response headers
@@ -161,13 +159,16 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             //get villa to delete
-            var villa = await _db.Villas.FirstOrDefaultAsync(u => u.Id == id);
+            var villa = await _dbVilla.GetAsync(u => u.Id == id);
             if (villa == null)
             {
                 return NotFound();
             }
-            _db.Villas.Remove(villa);
-            await _db.SaveChangesAsync();
+
+            //_db.Villas.Remove(villa);
+            //await _db.SaveChangesAsync();
+            await _dbVilla.RemoveAsync(villa);
+
             return NoContent(); //204
         }
 
@@ -205,8 +206,10 @@ namespace MagicVilla_VillaAPI.Controllers
             //47. automapper to convert villaupdateDTO to villa
             Villa model = _mapper.Map<Villa>(updateDTO);
 
-            _db.Villas.Update(model);
-            await _db.SaveChangesAsync();
+            //_db.Villas.Update(model);
+            //await _db.SaveChangesAsync();
+            await _dbVilla.UpdateAsync(model);
+
             return NoContent();
         }
 
@@ -222,7 +225,8 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             //get vill a from list of villas
-            var villa = await _db.Villas.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+            //var villa = await _db.Villas.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id); //removed in 50
+            var villa = await _dbVilla.GetAsync(u => u.Id == id, tracked: false);
 
             ////convert villa to villadto. removed in 47. automapper
             //VillaUpdateDTO villaDTO = new()
@@ -265,9 +269,10 @@ namespace MagicVilla_VillaAPI.Controllers
             //47. automapper. convert villaupdateDTO to villa model
             Villa model = _mapper.Map<Villa>(villaDTO);
 
+            //_db.Villas.Update(model); //removed in 50
+            //await _db.SaveChangesAsync();
 
-            _db.Villas.Update(model);
-            await _db.SaveChangesAsync();
+            await _dbVilla.UpdateAsync(model);
 
             //validation
             if (!ModelState.IsValid)

@@ -5,15 +5,16 @@ MagicVilla_VillaAPI/Repository/IRepostiory/IVillaRepository.cs
 
     public interface IVillaRepository
     {
-        Task<List<Villa>> GetAll(Expression<Func<Villa, bool>> filter = null);
-        Task<Villa> Get(Expression<Func<Villa, bool>> filter = null, bool tracked = true);
-        Task Create(Villa entity);
-        Task Remove(Villa entity);
-        Task Save();
+        Task<List<Villa>> GetAllAsync(Expression<Func<Villa, bool>> filter = null); //Expression is for linq 
+        Task<Villa> GetAsync(Expression<Func<Villa, bool>> filter = null, bool tracked = true);
+        Task CreateAsync(Villa entity);
+        Task UpdateAsync(Villa entity);
+        Task RemoveAsync(Villa entity);
+        Task SaveAsync();
     }
 
 
-49. Villa Repository Implementation- IMPORTANT LESSON
+49. Villa Repository Implementation
 
 Implement the interface. add class
 MagicVilla_VillaAPI/Repository/VillaRepository.cs
@@ -29,13 +30,13 @@ MagicVilla_VillaAPI/Repository/VillaRepository.cs
         }
 
         //add async to method
-        public async Task Create(Villa entity)
+        public async Task CreateAsync(Villa entity)
         {
             await _db.Villas.AddAsync(entity);
-            await Save();
+            await SaveAsync();
         }
 
-        public async Task<Villa> Get(Expression<Func<Villa, bool>> filter = null, bool tracked = true)
+        public async Task<Villa> GetAsync(Expression<Func<Villa, bool>> filter = null, bool tracked = true)
         {
             IQueryable<Villa> query = _db.Villas;
 
@@ -52,7 +53,7 @@ MagicVilla_VillaAPI/Repository/VillaRepository.cs
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<List<Villa>> GetAll(Expression<Func<Villa, bool>> filter = null)
+        public async Task<List<Villa>> GetAllAsync(Expression<Func<Villa, bool>> filter = null)
         {
             IQueryable<Villa> query = _db.Villas; //does not get executed right away, so we can add filter
 
@@ -64,24 +65,48 @@ MagicVilla_VillaAPI/Repository/VillaRepository.cs
             return await query.ToListAsync();
         }
 
-        public async Task Remove(Villa entity)
+        public async Task RemoveAsync(Villa entity)
         {
             _db.Villas.Remove(entity);
-            await Save();
+            await SaveAsync();
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Villa entity)
+        {
+            _db.Villas.Update(entity);
+            await SaveAsync();
         }
     }
 
 
-50. Async Repository in Action
+50. Async Repository in Action - IMPORTANT LESSON
+https://github.com/bhrugen/MagicVilla_API/commit/b792f3e3664235466dabcb0e8a041fcc1ad9e5a4?diff=split&w=0#diff-7639ff51b336ce6a0f764af782bd6e5fd770cd1a636fea0a231b9794c90ec737
 
+MagicVilla_VillaAPI/Repository/IRepostiory/IVillaRepository.cs
+MagicVilla_VillaAPI/Repository/VillaRepository.cs
+MagicVilla_VillaAPI/Program.cs
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
+Add to MagicVilla_VillaAPI/Program.cs
+    builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 
+Update MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
+Update dependency injection
+        //50 repository
+        private readonly IVillaRepository _dbVilla;
+        public VillaAPIController(IVillaRepository dbVilla, ILogger<VillaAPIController> logger, IMapper mapper) //(ApplicationDbContext
+        {
+            //_db = db;
+            _dbVilla = dbVilla;
+            _logger = logger;
+            _mapper = mapper;
+        }
 
 
 51. Repository CleanUp
