@@ -109,8 +109,55 @@ Update dependency injection
         }
 
 
-51. Repository CleanUp
+51. Repository and IRepositoty, create generic- NEEDED when using multiple repository, exclude this if only 1 repo like the master list api
+if multiple not needed, exclude this
+we will be using this code over with other interfaces.
+https://github.com/bhrugen/MagicVilla_API/commit/0bf941572a0c4e84db77e3fa41d413d7d030146b#diff-1001dfb7d277a764c83d8414e978e985d32593c464e26ecdac1f6700d8cf352d
 
+1. add new interface MagicVilla_VillaAPI/Repository/IRepostiory/IRepository.cs
+
+2. move code from MagicVilla_VillaAPI/Repository/IRepostiory/IVillaRepository.cs to MagicVilla_VillaAPI/Repository/IRepostiory/IRepository.cs
+keep updateasync in IVillaRepository.cs because updates are typically not the same
+
+MagicVilla_VillaAPI/Repository/IRepostiory/IVillaRepository.cs
+
+    public interface IVillaRepository : IRepository<Villa>
+    {
+        Task<Villa> UpdateAsync(Villa entity);
+    }
+
+MagicVilla_VillaAPI/Repository/IRepostiory/IRepository.cs
+
+    public interface IRepository<T> where T : class
+    {
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null); //expression is for linq
+        Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true);
+        Task CreateAsync(T entity);
+        Task RemoveAsync(T entity);
+        Task SaveAsync();
+    }
+
+3. Implment repository: MagicVilla_VillaAPI/Repository/Repository.cs
+copy all from MagicVilla_VillaAPI/Repository/VillaRepository.cs except UpdateAsync
+replace all _db.Villas. to dbSet.
+
+4. make sure MagicVilla_VillaAPI/Repository/VillaRepository.cs only has
+
+    public class VillaRepository : Repository<Villa>, IVillaRepository //ctrl + . to implement
+    {
+        private readonly ApplicationDbContext _db;
+        public VillaRepository(ApplicationDbContext db) : base(db)
+        {
+            _db = db;
+        }
+        public async Task<Villa> UpdateAsync(Villa entity)
+        {
+            entity.UpdatedDate = DateTime.Now;
+            _db.Villas.Update(entity);
+            await _db.SaveChangesAsync();
+            return entity;
+        }
+    }
 
 
 
