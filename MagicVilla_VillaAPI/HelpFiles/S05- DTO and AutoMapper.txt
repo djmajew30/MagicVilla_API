@@ -29,12 +29,53 @@ change _db.Villas.Add(model); to await _db.Villas.AddAsync(model);
 change _db.SaveChanges(); to await _db.SaveChangesAsync();
 
 
+46. Setup AutoMapper NuGet package and Mapping Config
+right now, in MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+we are converting an object using somethign like this:
 
+            //convert villa to villadto
+            VillaUpdateDTO villaDTO = new()
+            {
+                Amenity = villa.Amenity,
+                Details = villa.Details,
+                Id = villa.Id,
+                ImageUrl = villa.ImageUrl,
+                Name = villa.Name,
+                Occupancy = villa.Occupancy,
+                Rate = villa.Rate,
+                Sqft = villa.Sqft
+            };
 
-46. Setup AutoMapper and MApping Config
+What if we have much more? for that we have automapper.
 
+1. install these packages (using 12.0 for this installation):
+AutoMapper.Extensions.Microsoft.DependencyInjection
+AutoMapper
 
+2. Create MagicVilla_VillaAPI/MappingConfig.cs file
 
+    public class MappingConfig : Profile
+    {
+        public MappingConfig()
+        {
+            CreateMap<Villa, VillaDTO>();
+            CreateMap<VillaDTO, Villa>();
+
+            CreateMap<Villa, VillaCreateDTO>().ReverseMap();
+            CreateMap<Villa, VillaUpdateDTO>().ReverseMap();
+        }
+    }
+
+3. add to MagicVilla_VillaAPI/Program.cs
+...
+        option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+    });
+
+    //46 automapper
+    builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+    builder.Services.AddControllers(option =>
+    ...
 
 
 47. AutoMapper in Action
