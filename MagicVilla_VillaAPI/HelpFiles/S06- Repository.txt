@@ -174,10 +174,53 @@ MagicVilla_VillaAPI/Models/APIResponse.cs
     }
 
 
-53. Standard API Response
+53. Standard API Response, make changes to VillaAPIController.cs to use APIResponse.cs. all return types will now be APIResponse
+https://github.com/bhrugen/MagicVilla_API/commit/72e132eb0370c2e7c8a681319cd2411d53f3d7bc#diff-05d3e6a00179038ec6b16b6a8bdb5f8e15775ceb288168625aead8b0348c39cb
 
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+For each, we use a TRY CATCH and populate all fields, then return that response. For example:
 
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<APIResponse>> GetVillas()
+        {
+            try
+            {
+                _logger.LogInformation("Getting all villas");
 
+                //get villa list
+                IEnumerable<Villa> villaList = await _dbVilla.GetAllAsync();
+
+                //convert to villaDTO
+                _response.Result = _mapper.Map<List<VillaDTO>>(villaList); //Map<destination type>(object to convert) //<output>(input)
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages
+                     = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+now, when testing, here's an example response when creating:
+    {
+      "statusCode": 201,
+      "isSuccess": true,
+      "errorMessages": null,
+      "result": {
+        "id": 12,
+        "name": "stri999999999ng",
+        "details": "st99999999ring",
+        "rate": 99990,
+        "occupancy": 999990,
+        "sqft": 0,
+        "imageUrl": "string",
+        "amenity": "string"
+      }
+    }
 
 
 
