@@ -160,14 +160,18 @@ replace all _db.Villas. to dbSet.
     }
 
 
+52. API Response, typically 1 standard response
+MagicVilla_VillaAPI/Models/APIResponse.cs
 
-
-
-52. API Response
-
-
-
-
+{
+    public class APIResponse
+    {
+        //i.e. 201, 204, 404, etc
+        public HttpStatusCode StatusCode { get; set; }
+        public bool IsSuccess { get; set; }
+        public List<string> ErrorMessages { get; set; }
+        public object Result { get; set; }
+    }
 
 
 53. Standard API Response
