@@ -1,8 +1,36 @@
-﻿58. Setup MVC Web Project
+﻿58. CONSUMING API- Setup MVC Web Project after api in place
+https://github.com/bhrugen/MagicVilla_API/commit/a222c407265b7b06a55783d6d0bf0d15696d8845#diff-05efd0252ddf692779afc49ff88d90ac7ea002dedc9af470ce100dba6733af9a
 
+create new project in solution
+right click solution, add, projects
+mvc core web app model view controller
+to view, set as start up project by right clicking on it
 
+ERROR: INDEX NOT FOUND
 
+Packages, using .net7 for this:
 
+1st install nuget package
+Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+
+MagicVilla_Web\Program.cs
+
+	// Add services to the container.
+	//builder.Services.AddControllersWithViews()
+	builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+before changing port number
+https://localhost:7284/
+https://localhost:7245/swagger/index.html
+
+Change port number in 
+MagicVilla_VillaAPI/Properties/launchSettings.json
+      "applicationUrl": "https://localhost:7001;http://localhost:5121",
+MagicVilla_Web/Properties/launchSettings.json
+      "applicationUrl": "https://localhost:7002;http://localhost:5158"
+
+Right click on solution, set startup projects
+common properties, startup project, multiple startup projects, action start
 
 
 59. Web Project DTO's and API Models
