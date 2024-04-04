@@ -224,17 +224,73 @@ now, when testing, here's an example response when creating:
 
 
 
-54. Villa Number Models
+54. Villa Number Models for ADDING NEW Villa Number API
+See step 55.
 
 
+55. ADDING NEW Villa Number API Endpoints, models, controller, etc
+https://github.com/bhrugen/MagicVilla_API/commit/6cd115dda7f26a8d450783c60d63028ef1fcc3fb#diff-a6cc3a62686b0d9b9646be4f4f52394e25b19789c0debc80a0ff2ec225ac3994
+https://github.com/bhrugen/MagicVilla_API/commit/aee59cdeb3f1b982138b88b1a142bb154c4ae7c8
 
+1. create MagicVilla_VillaAPI/Models/VillaNumber.cs
+2. create MagicVilla_VillaAPI/Models/Dto/VillaNumberDTO.cs
 
+These are the same for now. If there are changes down the road, you'll be able to make changes 
+3. create MagicVilla_VillaAPI/Models/Dto/VillaNumberUpdateDTO.cs
+4. create MagicVilla_VillaAPI/Models/Dto/VillaNumberCreateDTO.cs
 
+    public class VillaNumberUpdateDTO or VillaNumberCreateDTO
+    {
+        [Required]
+        public int VillaNo { get; set; }
 
-55. Assignment 1 - Villa Number API Endpoints
+        public string SpecialDetails { get; set; }
+    }
 
+5. Create table in database for VillaNumbers
+MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
 
+        public DbSet<VillaNumber> VillaNumbers { get; set; } //table name is Villas
 
+6. add migration to push the table
+pm console
+add-migration AddVillaNumberToDb
+update-database
+
+https://github.com/bhrugen/MagicVilla_API/commit/aee59cdeb3f1b982138b88b1a142bb154c4ae7c8?diff=split&w=0
+7. add VillaNumber Repository 
+can copy existing repository and change Villa to VillaNumber
+7a. add MagicVilla_VillaAPI/Repository/IRepostiory/IVillaNumberRepository.cs
+7b. add MagicVilla_VillaAPI/Repository/VillaNumberRepository.cs
+
+8. Register Dependency Injection
+MagicVilla_VillaAPI/Program.cs
+
+    builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
+
+9. Add mapping congifuration
+MagicVilla_VillaAPI/MappingConfig.cs
+
+    public class MappingConfig : Profile
+    {
+        public MappingConfig()
+        {
+            CreateMap<Villa, VillaDTO>();
+            CreateMap<VillaDTO, Villa>();
+
+            CreateMap<Villa, VillaCreateDTO>().ReverseMap();
+            CreateMap<Villa, VillaUpdateDTO>().ReverseMap();
+
+            //for villanumber
+            CreateMap<VillaNumber, VillaNumberDTO>().ReverseMap();
+            CreateMap<VillaNumber, VillaNumberCreateDTO>().ReverseMap();
+            CreateMap<VillaNumber, VillaNumberUpdateDTO>().ReverseMap();
+        }
+    }
+
+10. Create VillaNumberController
+MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
+Test endpoints
 
 
 

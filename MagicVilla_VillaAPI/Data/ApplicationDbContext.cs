@@ -12,6 +12,8 @@ namespace MagicVilla_VillaAPI.Data
         }
         
         public DbSet<Villa> Villas { get; set; } //table name is Villas
+        public DbSet<VillaNumber> VillaNumbers { get; set; } //table name is Villas
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
