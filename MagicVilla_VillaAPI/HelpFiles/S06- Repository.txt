@@ -294,16 +294,98 @@ Test endpoints
 
 
 
-56. Add Foreign Key Reference
+56. Add Foreign Key Reference, no mapping between VillaNumber and Villa yet. One (villa) to many (VillaNumbers)
+Add this to model
+MagicVilla_VillaAPI/Models/VillaNumber.cs
 
+        [ForeignKey("Villa")]
+        public int VillaID { get; set; }
+        public Villa Villa { get; set; }
 
+add-migration AddForeignKeyToVillaTable
+update-database
 
+in migration, onDelete: ReferentialAction.Cascade) means that if a villa is deleted, these records will also be deleted
 
+ERROR IN MIGRATION:
+The ALTER TABLE statement conflicted with the FOREIGN KEY constraint "FK_VillaNumbers_Villas_VillaID". 
+The conflict occurred in database "Magic_VillaAPI", table "dbo.Villas", column 'Id'.
 
+Right now villnumbers is not empty, so it's trying to add a null value for the foreign key villaID, which creates the error
+Need to delete the record
 
 57. CRUD Villa Number DTO with Villa ID
+https://github.com/bhrugen/MagicVilla_API/commit/4c08c5d286372eb51183a6d5b33ae3b9f591a43b#diff-65f682a433fcc0cf21257269bf0e4fc17831340eeed8e2504533738235da3e36
 
+update MagicVilla_VillaAPI/Models/Dto/VillaNumberCreateDTO.cs
+update MagicVilla_VillaAPI/Models/Dto/VillaNumberUpdateDTO.cs
+update MagicVilla_VillaAPI/Models/Dto/VillaNumberDTO.cs
 
+all to include:
 
+        [Required]
+        public int VillaID { get; set; }
 
+test post:
+
+{
+  "villaNo": 101,
+  "villaID": 1,
+  "specialDetails": "string"
+}
+
+for invalid villa id, we need to update the controller
+update MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
+Need to inject the villa repository
+
+        //57. villa number custom error
+        private readonly IVillaRepository _dbVilla;
+
+        public VillaNumberAPIController(IVillaNumberRepository dbVillaNumber, ILogger<VillaNumberAPIController> logger, IMapper mapper, IVillaRepository dbVilla) //(ApplicationDbContext
+        {...
+            this._response = new();
+            _dbVilla = dbVilla; 
+        }...
+
+add the validation to POST (create) and PUT (update) methods
+...
+        [HttpPost]
+        ...
+        public async Task<ActionResult<APIResponse>> CreateVillaNumber([FromBody] VillaNumberCreateDTO createDTO)
+        {
+            try
+            {
+                //24. Custom ModelState Validation, unique/distinct villa name
+                if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
+                {
+                    ModelState.AddModelError("CustomError", "Villa Number already Exists!");//key:value. Key must be unique
+                    return BadRequest(ModelState);
+                }
+
+                //57. villa number custom error/validation
+                if (await _dbVilla.GetAsync(u => u.Id == createDTO.VillaID) == null) //null means VillaId is invalid
+                {
+                    ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
+                ...
+        ...
+        [HttpPut("{id:int}", Name = "UpdateVillaNumber")]
+        ...
+        public async Task<ActionResult<APIResponse>> UpdateVillaNumber(int id, [FromBody] VillaNumberUpdateDTO updateDTO)
+        {
+            try
+            {
+                if (updateDTO == null || id != updateDTO.VillaNo)
+                {
+                    return BadRequest();
+                }
+
+                //57. villa number custom error/validation
+                if (await _dbVilla.GetAsync(u => u.Id == createDTO.VillaID) == null)
+                {
+                    ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
+                ...
 

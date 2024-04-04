@@ -35,13 +35,17 @@ namespace MagicVilla_VillaAPI.Controllers
         //47 automapper
         private readonly IMapper _mapper;
 
-        public VillaNumberAPIController(IVillaNumberRepository dbVillaNumber, ILogger<VillaNumberAPIController> logger, IMapper mapper) //(ApplicationDbContext
+        //57. villa number custom error
+        private readonly IVillaRepository _dbVilla;
+
+        public VillaNumberAPIController(IVillaNumberRepository dbVillaNumber, ILogger<VillaNumberAPIController> logger, IMapper mapper, IVillaRepository dbVilla) //(ApplicationDbContext
         {
             //_db = db;
             _dbVillaNumber = dbVillaNumber;
             _logger = logger;
             _mapper = mapper;
             this._response = new();
+            _dbVilla = dbVilla; 
         }
 
 
@@ -134,6 +138,13 @@ namespace MagicVilla_VillaAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
+                //57. villa number custom error/validation
+                if (await _dbVilla.GetAsync(u => u.Id == createDTO.VillaID) == null) //null means VillaId is invalid
+                {
+                    ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
+
                 //add validations
                 //not the right information
                 if (createDTO == null)
@@ -223,6 +234,13 @@ namespace MagicVilla_VillaAPI.Controllers
                 if (updateDTO == null || id != updateDTO.VillaNo)
                 {
                     return BadRequest();
+                }
+
+                //57. villa number custom error/validation
+                if (await _dbVilla.GetAsync(u => u.Id == updateDTO.VillaID) == null)
+                {
+                    ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                    return BadRequest(ModelState);
                 }
 
                 ////41. convert villadto to object villa. commented out in 47. automapper
