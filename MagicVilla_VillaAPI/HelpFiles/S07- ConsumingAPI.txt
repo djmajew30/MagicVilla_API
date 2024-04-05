@@ -99,12 +99,20 @@ add to MagicVilla_Web/Program.cs
     var app = builder.Build();
 
 
+61. Add API URL in AppSettings.json
+Do not hard code into controller or class file
 
-61. Add API URL in AppSettings
+API: https://localhost:7001/
+WEB: https://localhost:7002/
 
-
-
-
+MagicVilla_Web/appsettings.json
+...
+      },
+      "AllowedHosts": "*",
+      "ServiceUrls": {
+        "VillaAPI": "https://localhost:7001"
+      }
+    }
 
 
 62. Base Service for API
