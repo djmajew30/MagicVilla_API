@@ -1,4 +1,6 @@
-﻿58. CONSUMING API- Setup MVC Web Project after api in place
+﻿https://github.com/bhrugen/MagicVilla_API/commits/master/?before=ded7b5475d6514cb2865de5293a001ebb3aeda45+70
+
+58. CONSUMING API- Setup MVC Web Project after api in place
 https://github.com/bhrugen/MagicVilla_API/commit/a222c407265b7b06a55783d6d0bf0d15696d8845#diff-05efd0252ddf692779afc49ff88d90ac7ea002dedc9af470ce100dba6733af9a
 
 create new project in solution
@@ -33,10 +35,39 @@ Right click on solution, set startup projects
 common properties, startup project, multiple startup projects, action start
 
 
-59. Web Project DTO's and API Models
+59. Web Project DTO's and API Models, constants in application
+https://github.com/bhrugen/MagicVilla_API/commit/ddd9a7c2028b35f5302587b303da81b521b5fc14#diff-1d053aa46a443d4e062f3163e5bd2a348ab54cf09c3aa772cac07740aff85333
+Copy models folder to web project
+remove villa and villanumber
+Change namespaces to MagicVilla_Web for apiresponse and dtos
 
+constants in application
+should be separated, but will show how when we keep them together
+new project class library
+MagicVilla_Utility/SD.cs
 
+    public static class SD //static details
+    {
+        public enum ApiType
+        {
+            GET,
+            POST,
+            PUT,
+            DELETE
+        }
+    }
 
+create new class MagicVilla_Web/Models/APIRequest.cs
+
+    public class APIRequest  //when we request from an endpoint
+    {
+        public ApiType ApiType { get; set; } = ApiType.GET;
+        public string Url { get; set; }
+        public object Data { get; set; }
+    }
+
+add project reference
+right click web proj, add, project reference and select utility 
 
 
 
