@@ -70,11 +70,33 @@ add project reference
 right click web proj, add, project reference and select utility 
 
 
+60. AutoMapper in web project
+Install nuget packages
+AutoMapper
+AutoMapper.Extensions.Microsoft.DependencyInjection
 
-60. AutoMapper
+Create MagicVilla_Web/MappingConfig.cs
 
+    public class MappingConfig : Profile
+    {
+        public MappingConfig()
+        {
+            CreateMap<VillaDTO, VillaCreateDTO>().ReverseMap();
+            CreateMap<VillaDTO, VillaUpdateDTO>().ReverseMap();
 
+            CreateMap<VillaNumberDTO, VillaNumberCreateDTO>().ReverseMap();
+            CreateMap<VillaNumberDTO, VillaNumberUpdateDTO>().ReverseMap();
+        }
+    }
 
+add to MagicVilla_Web/Program.cs
+
+    using MagicVilla_Web;
+    ...
+    // Add services to the container.
+    builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+    builder.Services.AddAutoMapper(typeof(MappingConfig));
+    var app = builder.Build();
 
 
 
