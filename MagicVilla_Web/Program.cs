@@ -1,4 +1,6 @@
 using MagicVilla_Web;
+using MagicVilla_Web.Services.IServices;
+using MagicVilla_Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+//63. ivillaservice interface
+//register http client on villa service
+builder.Services.AddHttpClient<IVillaService, VillaService>();
+//register VillaService to dependency injection
+builder.Services.AddScoped<IVillaService, VillaService>();
 
 var app = builder.Build();
 

@@ -205,19 +205,142 @@ MagicVilla_Web/Services/BaseService.cs
     }
 
 
-63. Adding Villa Service
+63. IVillaService and VillaService CRUD interface using basse service interface. Adding Villa Service 
+https://github.com/bhrugen/MagicVilla_API/commit/2b5e20ffa3a8a32bf797f031d3be1520481122da#diff-87b211503afb139bd9386399150f0c77b4c403fcfb3b38e8c19ba1f205371863
+
+add new interface
+MagicVilla_Web/Services/IServices/IVillaService.cs
+
+    public interface IVillaService 
+    {
+        Task<T> GetAllAsync<T>();
+        Task<T> GetAsync<T>(int id);
+        Task<T> CreateAsync<T>(VillaCreateDTO dto);
+        Task<T> UpdateAsync<T>(VillaUpdateDTO dto);
+        Task<T> DeleteAsync<T>(int id);
+    }
+
+implement interface
+MagicVilla_Web/Services/VillaService.cs
+
+using MagicVilla_Utility;
+using MagicVilla_Web.Models;
+using MagicVilla_Web.Models.Dto;
+using MagicVilla_Web.Services.IServices;
+
+namespace MagicVilla_Web.Services
+{
+    public class VillaService : BaseService, IVillaService
+    {
+        //dependency injection
+        private readonly IHttpClientFactory _clientFactory;
+        private string villaUrl;
+
+        public VillaService(IHttpClientFactory clientFactory, IConfiguration configuration) : base(clientFactory)
+        {
+            _clientFactory = clientFactory;
+            //get url of api to invoke service. from appsettings.json. ("key:value")
+            villaUrl = configuration.GetValue<string>("ServiceUrls:VillaAPI");
+        }
+
+        public Task<T> CreateAsync<T>(VillaCreateDTO dto)
+        {
+            //SendAsync inside base service
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.POST,
+                Data = dto, //obj VillaCreateDTO
+                Url = villaUrl + "/api/villaAPI" //this is the route from api controller
+            });
+        }
+
+        public Task<T> DeleteAsync<T>(int id)
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.DELETE,
+                Url = villaUrl + "/api/villaAPI/" + id
+            });
+        }
+
+        public Task<T> GetAllAsync<T>()
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.GET,
+                Url = villaUrl + "/api/villaAPI"
+            });
+        }
+
+        public Task<T> GetAsync<T>(int id)
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.GET,
+                Url = villaUrl + "/api/villaAPI/" + id
+            });
+        }
+
+        public Task<T> UpdateAsync<T>(VillaUpdateDTO dto)
+        {
+            return SendAsync<T>(new APIRequest()
+            {
+                ApiType = SD.ApiType.PUT,
+                Data = dto,
+                Url = villaUrl + "/api/villaAPI/" + dto.Id
+            });
+        }
+    }
+}
 
 
+add to program.cs
+add to dependency injection so we can use this in our controllers
+MagicVilla_Web/Program.cs
+
+    builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+    //63. ivillaservice interface
+    //register http client on villa service
+    builder.Services.AddHttpClient<IVillaService, VillaService>();
+    //register VillaService to dependency injection
+    builder.Services.AddScoped<IVillaService, VillaService>();
 
 
+64. Calling Villa API by adding villa controller
+MagicVilla_Web/Controllers/VillaController.cs
 
+    public class VillaController : Controller
+    {
+        private readonly IVillaService _villaService;
+        private readonly IMapper _mapper;
+        public VillaController(IVillaService villaService, IMapper mapper)
+        {
+            _villaService = villaService;
+            _mapper = mapper;
+        }
 
-64. Calling Villa API
+        public async Task<IActionResult> IndexVilla()
+        {
+            List<VillaDTO> list = new();
 
+            var response = await _villaService.GetAllAsync<APIResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                list = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));
+            }
+            return View(list);
+        }
+    }
 
+add inside headers
+MagicVilla_Web/Views/Shared/_Layout.cshtml
 
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Villa" asp-action="IndexVilla">Privacy</a>
+                        </li>
 
-
+any errors, look in baseservice.cs and set breakpoint on apiResponse = await client.SendAsync(message);
 
 65. Display all Villa List
 

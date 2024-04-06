@@ -8,11 +8,11 @@ namespace MagicVilla_Web.Services
 {
     public class BaseService : IBaseService
     {
-        public APIResponse responseModel { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public APIResponse responseModel { get; set; }
 
         //to call the api
         public IHttpClientFactory httpClient { get; set; }
-        public BaseService()
+        public BaseService(IHttpClientFactory httpClient)
         {
             this.responseModel = new();
             this.httpClient = httpClient;
