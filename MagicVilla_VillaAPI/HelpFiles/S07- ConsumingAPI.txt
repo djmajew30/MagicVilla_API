@@ -356,7 +356,15 @@ in controller, right click IndexVilla, add view, same name IndexVilla
 MagicVilla_Web/Views/Villa/IndexVilla.cshtml
 
 
-66. Create Villa UI
+66. Create Villa UI view/page
+https://github.com/bhrugen/MagicVilla_API/commit/ef8d3c3b5d8b6cbe45f7dbefa1435f7347ed4e96
+
+MagicVilla_Web/Models/Dto/VillaCreateDTO.cs
+
+MagicVilla_Web/Controllers/VillaController.cs
+
+MagicVilla_Web/Views/Villa/CreateVilla.cshtml
+
 
 
 

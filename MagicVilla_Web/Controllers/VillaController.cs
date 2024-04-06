@@ -17,7 +17,8 @@ namespace MagicVilla_Web.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> IndexVilla()
+		//GetAllAsync HTTPGET
+		public async Task<IActionResult> IndexVilla()
         {
             List<VillaDTO> list = new();
 
@@ -28,5 +29,30 @@ namespace MagicVilla_Web.Controllers
             }
             return View(list);
         }
-    }
+
+        //Create Villa HTTPGET
+		public async Task<IActionResult> CreateVilla()
+		{
+			return View();
+		}
+
+		//CreateAsync create villa HTTPPOST 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CreateVilla(VillaCreateDTO model)
+		{
+			if (ModelState.IsValid)
+			{
+
+				var response = await _villaService.CreateAsync<APIResponse>(model);
+				if (response != null && response.IsSuccess)
+				{
+					return RedirectToAction(nameof(IndexVilla));
+				}
+			}
+			return View(model);
+		}
+
+
+	}
 }
