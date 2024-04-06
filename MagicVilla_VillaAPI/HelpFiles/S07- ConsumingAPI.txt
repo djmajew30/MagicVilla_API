@@ -343,10 +343,17 @@ MagicVilla_Web/Views/Shared/_Layout.cshtml
 any errors, look in baseservice.cs and set breakpoint on apiResponse = await client.SendAsync(message);
 
 65. Display all Villa List
+https://github.com/bhrugen/MagicVilla_API/commit/fddbe6b8849a79b33edcaa9e67d930eb18cc3c4a
 
+install https://icons.getbootstrap.com/
+MagicVilla_Web/Views/Shared/_Layout.cshtml
 
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-
+in controller, right click IndexVilla, add view, same name IndexVilla
+MagicVilla_Web/Views/Villa/IndexVilla.cshtml
 
 
 66. Create Villa UI
