@@ -434,17 +434,16 @@ MagicVilla_Web/Views/Villa/IndexVilla.cshtml
 						<a asp-controller="Villa" asp-action="DeleteVilla" asp-route-villaId="@item.Id" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Delete</a>
 
 
-
 69. Update VIlla UI page
+https://github.com/bhrugen/MagicVilla_API/commit/7936904dc4ff3663dbda8464b2f534cd3b72e6f2
 
-
-
-
-
+in controller, right click and add view
+MagicVilla_Web/Views/Villa/UpdateVilla.cshtml
 
 70. Delete Villa
+https://github.com/bhrugen/MagicVilla_API/commit/c3a39fad5e1bb7f36bc2940e4a815f53e1c8ba6f
 
-
+update MagicVilla_Web/Controllers/VillaController.cs
 
 
 
