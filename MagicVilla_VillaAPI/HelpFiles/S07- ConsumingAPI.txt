@@ -440,12 +440,11 @@ https://github.com/bhrugen/MagicVilla_API/commit/7936904dc4ff3663dbda8464b2f534c
 in controller, right click and add view
 MagicVilla_Web/Views/Villa/UpdateVilla.cshtml
 
-70. Delete Villa
+70. Delete Villa controller and UI
 https://github.com/bhrugen/MagicVilla_API/commit/c3a39fad5e1bb7f36bc2940e4a815f53e1c8ba6f
 
 update MagicVilla_Web/Controllers/VillaController.cs
-
-
+add MagicVilla_Web/Views/Villa/DeleteVilla.cshtml
 
 
 71. Add VillaNumberService
