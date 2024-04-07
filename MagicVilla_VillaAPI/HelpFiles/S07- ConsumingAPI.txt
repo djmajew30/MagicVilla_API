@@ -366,16 +366,32 @@ MagicVilla_Web/Controllers/VillaController.cs
 MagicVilla_Web/Views/Villa/CreateVilla.cshtml
 
 
+67. Disable NULLABLE IN API PROJECT - IMPORTANT
+https://github.com/bhrugen/MagicVilla_API/commit/c6c7c7ac53cd80f78841b025b785c67d62a9e886#diff-1e8645bae73d9641d95fb93965aaa69059e6ecd7d9a3d2fc31e631ec78b71e6a
 
+ERROR CREATE IS NOT CREATING. debug on                 
+                //call api endpoint
+                apiResponse = await client.SendAsync(message); 
+shows bad request
 
+MagicVilla_VillaAPI/Models/Villa.cs
+make Name field         [Required]
 
+edit project file
+MagicVilla_VillaAPI/MagicVilla_VillaAPI.csproj
+to 
 
+    <Nullable>disable</Nullable>
 
-67. Disable NULLABLE - IMPORTANT
+and
+MagicVilla_Web/MagicVilla_Web.csproj
+    <Nullable>disable</Nullable>
 
+you can also remove this, so if you have a project where this is removed, that's why
 
-
-
+add and update new migration in pm console api project, ***must have starup project as _api as well
+add-migration ChangeNullableToFalse
+update-database
 
 
 68. Update Villa Action Methods
