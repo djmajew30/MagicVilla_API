@@ -394,14 +394,48 @@ add-migration ChangeNullableToFalse
 update-database
 
 
-68. Update Villa Action Methods
+68. Update Villa Action Methods in controller
+https://github.com/bhrugen/MagicVilla_API/commit/0eff47d34a4f37988ff07688ea5773a093417eab
+
+MagicVilla_Web/Controllers/VillaController.cs
+
+		//GetAsync for updating a record
+		public async Task<IActionResult> UpdateVilla(int villaId)
+		{
+			var response = await _villaService.GetAsync<APIResponse>(villaId);
+			if (response != null && response.IsSuccess)
+			{
+				VillaDTO model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
+				return View(_mapper.Map<VillaUpdateDTO>(model));
+			}
+			return NotFound();
+		}
+
+		//UpdateAsync for updating a record
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> UpdateVilla(VillaUpdateDTO model)
+		{
+			if (ModelState.IsValid)
+			{
+
+				var response = await _villaService.UpdateAsync<APIResponse>(model);
+				if (response != null && response.IsSuccess)
+				{
+					return RedirectToAction(nameof(IndexVilla));
+				}
+			}
+			return View(model);
+		}
+
+MagicVilla_Web/Views/Villa/IndexVilla.cshtml
+						@*asp-route- must match the name in the VillaController		public async Task<IActionResult> UpdateVilla(int villaId)*@
+						<a asp-controller="Villa" asp-action="UpdateVilla" asp-route-villaId = "@item.Id" class="btn btn-success"><i class="bi bi-pencil-square"></i> Edit</a>
+						<a asp-controller="Villa" asp-action="DeleteVilla" asp-route-villaId="@item.Id" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Delete</a>
 
 
 
-
-
-
-69. Update VIlla UI
+69. Update VIlla UI page
 
 
 
