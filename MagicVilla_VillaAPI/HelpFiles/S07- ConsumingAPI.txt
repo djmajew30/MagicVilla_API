@@ -447,19 +447,37 @@ update MagicVilla_Web/Controllers/VillaController.cs
 add MagicVilla_Web/Views/Villa/DeleteVilla.cshtml
 
 
-71. Add VillaNumberService
+71. Add VillaNumberService interface and implementation
+https://github.com/bhrugen/MagicVilla_API/commit/1d96027f18ae48ac271f0bdbd15b289af3e9edcc
+
+add interface
+MagicVilla_Web/Services/IServices/IVillaNumberService.cs
+
+implement interface
+MagicVilla_Web/Services/VillaNumberService.cs
+
+add to services
+MagicVilla_Web/Program.cs
 
 
+72. Getting Villa Numbers using the controller
+https://github.com/bhrugen/MagicVilla_API/commit/9f9b72dcc194b916d8f8fa9d7e6ba7ec7d03047e
 
+add controller with automapper and dependency injection
+MagicVilla_Web/Controllers/VillaNumberController.cs
 
+update MagicVilla_Web/Models/Dto/VillaNumberDTO.cs
+        public VillaDTO Villa { get; set; }
 
+create view
+MagicVilla_Web/Views/VillaNumber/IndexVillaNumber.cshtml
 
-72. Getting Villa Numbers
+add to MagicVilla_Web/Views/Shared/_Layout.cshtml
 
-
-
-
-
+ERROR will be:
+AspNetCore.Views_VillaNumber_IndexVillaNumber.ExecuteAsync() in IndexVillaNumber.cshtml
++
+                    <td>@item.Villa.Name</td>
 
 73. Include Villa when retireving Villa Number
 

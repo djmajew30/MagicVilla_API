@@ -56,6 +56,7 @@ namespace MagicVilla_Web.Services
                 //when above sent, we will receive a response. set null by default
                 HttpResponseMessage apiResponse = null;
                 //call api endpoint
+                //place breakepoint here
                 apiResponse = await client.SendAsync(message);
                 //get api content from response
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
