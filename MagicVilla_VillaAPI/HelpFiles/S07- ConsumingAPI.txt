@@ -535,10 +535,14 @@ MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
 
 
 74. Bootswatch Theme
+https://github.com/bhrugen/MagicVilla_API/commit/9e70b63431f65f50dd1a73bc0c50277717131de4
 
+we will use cyborg theme. dl bootstrap.css.
+need to create that new style sheet file
+Open file, copy, paste in MagicVilla_Web/wwwroot/css/bootstrap.css
 
-
-
+Implement in universal _layout
+MagicVilla_Web/Views/Shared/_Layout.cshtml
 
 
 75. Villa Home Page
