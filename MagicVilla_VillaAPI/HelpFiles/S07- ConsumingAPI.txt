@@ -546,10 +546,17 @@ MagicVilla_Web/Views/Shared/_Layout.cshtml
 
 
 75. Villa Home Page
+Display all Villas and images
 
+add Index() to MagicVilla_Web/Controllers/HomeController.cs
 
+In windows explorer:
+Copy images folder from project resources
+C:\DEV_Training\C#\Udemy\RESTful Web API - The Complete Guide (NET7 API) Part 1\Resources\Course Content\Resources
+and paste to 
+C:\DEV_Training\C#\Udemy\RESTful Web API - The Complete Guide (NET7 API) Part 1\MagicVilla\MagicVilla_Web\wwwroot
 
-
+update MagicVilla_Web/Views/Home/Index.cshtml
 
 
 76. Move Images
