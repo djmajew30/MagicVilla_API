@@ -546,6 +546,7 @@ MagicVilla_Web/Views/Shared/_Layout.cshtml
 
 
 75. Villa Home Page
+https://github.com/bhrugen/MagicVilla_API/commit/0bf121df2855c155cc8fac7d8543839dadcf3b55#diff-370cce6a3b8aded420660982e1b674fe4714231d43c6062891a58df22826cfc0
 Display all Villas and images
 
 add Index() to MagicVilla_Web/Controllers/HomeController.cs
@@ -559,8 +560,9 @@ C:\DEV_Training\C#\Udemy\RESTful Web API - The Complete Guide (NET7 API) Part 1\
 update MagicVilla_Web/Views/Home/Index.cshtml
 
 
-76. Move Images
-
+76. Move Images to new url
+https://github.com/bhrugen/MagicVilla_API/commit/81a68382d4c8c5f569b3df819b30f3be71a69a4e
+MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
 
 
 
