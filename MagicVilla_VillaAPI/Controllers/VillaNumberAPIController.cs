@@ -57,8 +57,10 @@ namespace MagicVilla_VillaAPI.Controllers
             {
                 _logger.LogInformation("Getting all villas");
 
-                //get villa list
-                IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsync();
+                //get villa list. removed in 73.
+                //IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsync();
+                //73 include villa in villanumbers
+                IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsync(includeProperties: "Villa");
 
                 //convert to villaNumberDTO
                 _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumberList); //Map<destination type>(object to convert) //<output>(input)

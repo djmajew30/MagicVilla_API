@@ -479,11 +479,59 @@ AspNetCore.Views_VillaNumber_IndexVillaNumber.ExecuteAsync() in IndexVillaNumber
 +
                     <td>@item.Villa.Name</td>
 
-73. Include Villa when retireving Villa Number
+73. Include Villa when retireving Villa Number. Needs to be done in API project
+https://github.com/bhrugen/MagicVilla_API/commit/ccf04fc6d91d352d2cbffa6908773e38d9f96134
+we already added villadto to villanumberdto in web project
+
+MagicVilla_VillaAPI/Models/Dto/VillaNumberDTO.cs
+MagicVilla_VillaAPI/Repository/IRepostiory/IRepository.cs
+MagicVilla_VillaAPI/Repository/Repository.cs
+MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
+
+1. add villadto to MagicVilla_VillaAPI/Models/Dto/VillaNumberDTO.cs
+***Dont need to add to VillaNumber.cs model becuase it was already added
+
+        public VillaDTO Villa { get; set; }
 
 
+2. need to tell Repository that we need this property loaded
+MagicVilla_VillaAPI/Repository/IRepostiory/IRepository.cs
+
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null); //expression is for linq, can be ?null 
+        Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null);
 
 
+3. Add this to repo methods GetAsync and GetAllAsync. FOR BOTH METHODS
+MagicVilla_VillaAPI/Repository/Repository.cs
+
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        {...
+                query = query.Where(filter);
+            ...
+
+            //73 include villa when igetting villa number. 
+            //string? includeProperties = null accepts a string, such as "Villa,VillaSpecial", so that is the format we must use
+            //
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }...
+
+4. right now villanumbers API works and shows villa, but returns null. need to update the controller. 
+MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
+
+        public async Task<ActionResult<APIResponse>> GetVillaNumbers()
+        {
+            try
+            {...
+                //get villa list. removed in 73.
+                //IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsync();
+                //73 include villa in villanumbers
+                IEnumerable<VillaNumber> villaNumberList = await _dbVillaNumber.GetAllAsync(includeProperties: "Villa");
+                ...
 
 
 74. Bootswatch Theme
