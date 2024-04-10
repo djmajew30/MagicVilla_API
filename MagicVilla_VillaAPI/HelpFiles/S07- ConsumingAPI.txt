@@ -666,19 +666,89 @@ create
 MagicVilla_Web/Models/VM/VillaNumberDeleteVM.cs
 MagicVilla_Web/Models/VM/VillaNumberUpdateVM.cs
 
-add to controller
+add to controller, more changes here too from lesson 83:
+https://github.com/bhrugen/MagicVilla_API/commit/b3eeb01883dd5c95be6ec715bccc1ffbde52948d
 MagicVilla_Web/Controllers/VillaNumberController.cs
 
 
-83. Update and Delete Villa Number
-
-
-
-
+83. Update and Delete Villa Number, cshtml view pages
+https://github.com/bhrugen/MagicVilla_API/commit/b3eeb01883dd5c95be6ec715bccc1ffbde52948d#diff-c12fee5170a289f7e106b320b994386a287862a9af9d9507c96844141bba4077
 
 
 84. Sweet Alert
+https://github.com/bhrugen/MagicVilla_API/commit/073737eb4afc42f1bf9541b19d59dd4eaed64f92#diff-968d9422cee819115287dec3c2866b8a3814a75d88ba3d12d3f8919a1b1598ff
 
+https://sweetalert2.github.io/
+https://sweetalert2.github.io/#download
+
+Add to MagicVilla_Web/Views/Shared/_Layout.cshtml:
+<body>
+    <partial name="_Notification" />
+    <header>
+    ...
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    ...
+
+create new partial view MagicVilla_Web/Views/Shared/_Notification.cshtml
+
+
+To invoke:
+https://sweetalert2.github.io/#examples
+Look for example with confirm button
+
+Usage example in MagicVilla_Web/Controllers/VillaController.cs:
+TempData["success"] = "Villa created successfully";
+
+
+
+
+*****this is from bulky project****
+C:\DEV_Training\C#\Udemy\ASP.NET Core MVC - The Complete Guide 2023 [NET8]\Bulky\BulkyWeb\wwwroot\js\product.js
+Add to product.js file
+
+top of file:
+var dataTable;
+
+bottom of file:
+
+function Delete(url) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this change",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url, //url in Delete(url)
+                type: 'DELETE', //[HttpDelete]
+                success: function (data) {
+                    data.ajax.reload();
+                    toastr.success(data.message);
+                }
+            })
+            //Swal.fire({
+            //    title: "Deleted!",
+            //    text: "Your file has been deleted.",
+            //    icon: "success"
+            });
+        }
+    });
+}
+
+then change href  in middle of file to:
+
+                "render": function (data) {
+                    return `<div class="w-75 btn-group" role="group">
+                     <a href="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>               
+                     <a onClick= Delete('/admin/product/delete/${data}') class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                    </div>`
+                },
 
 
 
