@@ -60,9 +60,35 @@ namespace MagicVilla_Web.Services
                 apiResponse = await client.SendAsync(message);
                 //get api content from response
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                //deserialize. then will be model apiresponse. has to be of type <T>
+
+                //added in 80. error messages update
+                try
+                {
+                    //api will always retreive type APIResponse
+                    APIResponse ApiResponse = JsonConvert.DeserializeObject<APIResponse>(apiContent);
+                    if (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest
+                        || apiResponse.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        ApiResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        ApiResponse.IsSuccess = false;
+                        //can add error message here
+                        ApiResponse.ErrorMessages = new List<string> { "1. TEST", "2. BaseService.cs" }; ;
+                        var res = JsonConvert.SerializeObject(ApiResponse);
+                        var returnObj = JsonConvert.DeserializeObject<T>(res);
+                        return returnObj;
+                    }
+                }
+                catch (Exception e)
+                {
+                    //for exceptions, fall back to generic var <T>
+                    var exceptionResponse = JsonConvert.DeserializeObject<T>(apiContent);
+                    return exceptionResponse;
+                }
+
+                //deserialize. then will be model apiresponse. has to be of type <T>. 
                 var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
                 return APIResponse;
+
             }
             catch (Exception e)
             {

@@ -130,7 +130,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 //24. Custom ModelState Validation, unique/distinct villa name
                 if (await _dbVilla.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
                 {
-                    ModelState.AddModelError("CustomError", "Villa already Exists!");//key:value. Key must be unique
+                    ModelState.AddModelError("ErrorMessages", "Villa already Exists!");//key:value. Key must be unique
                     return BadRequest(ModelState);
                 }
 

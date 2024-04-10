@@ -592,14 +592,47 @@ MagicVilla_Web/Views/VillaNumber/CreateVillaNumber.cshtml
 
 
 
-80. Special Validation and Base Service Update
+80. catch all ERROR messages and load to APIResponse Special Validation and Base Service Update. 
+https://github.com/bhrugen/MagicVilla_API/commit/9b8046f21466780a69b317f0395eab913a3975db#diff-5a4a8658a29df1529951d57ee4113cd94b62b89c58fcba598d1804a2ec4b9927
+when we try to create a villa number with an existing id, nothing happens
+debug by looking at MagicVilla_Web/Services/BaseService.cs, apiResponse variable
+and MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
+in BaseService, isSuccess is set to true, but error messages field is null
+
+In API, replace all "CustomError" with the "ErrorMessages" - this is from APIResponse.
+This will populate the list:
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
 
 
+In Web:
+MagicVilla_Web/Controllers/VillaNumberController.cs
+MagicVilla_Web/Services/BaseService.cs
+
+update MagicVilla_Web/Services/BaseService.cs to catch error message
+
+update MagicVilla_Web/Controllers/VillaNumberController.cs to populatel dropdown once error is caught
+
+                    return RedirectToAction(nameof(IndexVillaNumber));
+                }...
+
+            //if not successful, if we return to the view, we need to populate the dropdown again (model.VillaList). right now it will have no values is there is an error
+            var resp = await _villaService.GetAllAsync<APIResponse>();
+            if (resp != null && resp.IsSuccess)
+            {
+                model.VillaList = JsonConvert.DeserializeObject<List<VillaDTO>>
+                    (Convert.ToString(resp.Result)).Select(i => new SelectListItem
+                    {
+                        Text = i.Name,
+                        Value = i.Id.ToString()
+                    }); ;
+            }
+
+            return View(model);
+            ...
 
 
-
-
-81. Display API Error Messages
+81. Display API ERROR Messages
 
 
 

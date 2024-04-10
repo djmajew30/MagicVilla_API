@@ -136,14 +136,14 @@ namespace MagicVilla_VillaAPI.Controllers
                 //24. Custom ModelState Validation, unique/distinct villa name
                 if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
                 {
-                    ModelState.AddModelError("CustomError", "Villa Number already Exists!");//key:value. Key must be unique
+                    ModelState.AddModelError("ErrorMessages", "Villa Number already Exists!");//key:value. Key must be unique
                     return BadRequest(ModelState);
                 }
 
                 //57. villa number custom error/validation
                 if (await _dbVilla.GetAsync(u => u.Id == createDTO.VillaID) == null) //null means VillaId is invalid
                 {
-                    ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                    ModelState.AddModelError("ErrorMessages", "Villa ID is Invalid!");
                     return BadRequest(ModelState);
                 }
 
@@ -241,7 +241,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 //57. villa number custom error/validation
                 if (await _dbVilla.GetAsync(u => u.Id == updateDTO.VillaID) == null)
                 {
-                    ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                    ModelState.AddModelError("ErrorMessages", "Villa ID is Invalid!");
                     return BadRequest(ModelState);
                 }
 
