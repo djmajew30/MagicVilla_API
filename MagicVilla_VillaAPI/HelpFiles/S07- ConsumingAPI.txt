@@ -565,19 +565,13 @@ https://github.com/bhrugen/MagicVilla_API/commit/81a68382d4c8c5f569b3df819b30f3b
 MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
 
 
-
-
-
-77. Villa Number Assignment
-
-
-
-
+77. Villa Number Assignment CRUD on villa number
+create edit delete
 
 
 78. Create Villa Number GET
-
-
+MagicVilla_Web/Controllers/VillaNumberController.cs
+MagicVilla_Web/Models/VM/VillaNumberCreateVM.cs
 
 
 
