@@ -569,17 +569,26 @@ MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
 create edit delete
 
 
-78. Create Villa Number GET
-MagicVilla_Web/Controllers/VillaNumberController.cs
+78. Create Villa Number GET for CREATE. include a Dropdown
+https://github.com/bhrugen/MagicVilla_API/commit/23e9997231ff1bcfe3274570fb8f2dd2fb7a71e9
+
+create view model
 MagicVilla_Web/Models/VM/VillaNumberCreateVM.cs
+        public async Task<IActionResult> CreateVillaNumber()
+
+create all action methods inside
+MagicVilla_Web/Controllers/VillaNumberController.cs
 
 
+79. Create Villa POST for Create
+https://github.com/bhrugen/MagicVilla_API/commit/0975cfa755d9805a402449d9661ab84f2da5193f
 
+create post method for create
+MagicVilla_Web/Controllers/VillaNumberController.cs
+        public async Task<IActionResult> CreateVillaNumber(VillaNumberCreateDTO model)
 
-79. Create Villa POST
-
-
-
+add view
+MagicVilla_Web/Views/VillaNumber/CreateVillaNumber.cshtml
 
 
 
