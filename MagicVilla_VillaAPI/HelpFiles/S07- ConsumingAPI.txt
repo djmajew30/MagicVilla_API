@@ -656,11 +656,18 @@ add to MagicVilla_Web/Views/VillaNumber/CreateVillaNumber.cshtml
             <div asp-validation-summary="All" class="text-danger"></div>
 
 
-82. Update and Delete Action Method for Villa Number
+82. Update and Delete Action Method for Villa Number VM and controller
+https://github.com/bhrugen/MagicVilla_API/commit/825e350ee14a2c6654f6c884eaa5663497d2f903
+MagicVilla_Web/Models/VM/VillaNumberDeleteVM.cs
+MagicVilla_Web/Models/VM/VillaNumberUpdateVM.cs
+MagicVilla_Web/Controllers/VillaNumberController.cs
 
+create
+MagicVilla_Web/Models/VM/VillaNumberDeleteVM.cs
+MagicVilla_Web/Models/VM/VillaNumberUpdateVM.cs
 
-
-
+add to controller
+MagicVilla_Web/Controllers/VillaNumberController.cs
 
 
 83. Update and Delete Villa Number
