@@ -72,7 +72,7 @@ namespace MagicVilla_Web.Services
                         ApiResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
                         ApiResponse.IsSuccess = false;
                         //can add error message here
-                        ApiResponse.ErrorMessages = new List<string> { "1. TEST", "2. BaseService.cs" }; ;
+                        //ApiResponse.ErrorMessages = new List<string> { "1. TEST", "2. BaseService.cs" }; ;
                         var res = JsonConvert.SerializeObject(ApiResponse);
                         var returnObj = JsonConvert.DeserializeObject<T>(res);
                         return returnObj;

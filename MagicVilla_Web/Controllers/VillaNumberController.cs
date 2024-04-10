@@ -66,6 +66,16 @@ namespace MagicVilla_Web.Controllers
                 {
                     return RedirectToAction(nameof(IndexVillaNumber));
                 }
+
+                //81 display api error message
+                else
+                {
+                    if (response.ErrorMessages.Count > 0)
+                    {
+                        ModelState.AddModelError("ErrorMessages", response.ErrorMessages.FirstOrDefault());
+                    }
+
+                }
             }
 
             //if not successful, if we return to the view, we need to populate the dropdown again (model.VillaList). right now it will have no values is there is an error
