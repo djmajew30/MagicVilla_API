@@ -44,19 +44,81 @@ MagicVilla_VillaAPI/Repository/UserRepository.cs
         public async Task<LocalUser> Register(RegistrationRequestDTO registerationRequestDTO)
 
 
-88. Implement User Repository - Login Part 1
+88. Implement User Repository - Login. validate username and password part 1
+https://github.com/bhrugen/MagicVilla_API/commit/b054f24dbe3b1d1813b790796407e5cf15d0cfea
 
+MagicVilla_VillaAPI/Repository/UserRepository.cs
 
+       private readonly ApplicationDbContext _db;
+        private string secretKey;
 
+        public UserRepository(ApplicationDbContext db, IConfiguration configuration)
+        {
+            _db = db;
+            secretKey = configuration.GetValue<string>("ApiSettings:Secret");
+        }
+        ...
+        public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
+        {
+            var user = _db.LocalUsers.FirstOrDefault(
+                u => u.UserName.ToLower() == loginRequestDTO.UserName.ToLower()
+                && u.Password == loginRequestDTO.Password);
 
+            if (user == null) //not a valid login, not found
+            {
+                return null;
+            }
 
+            //if user was found generate JWT Token. need secret key token will be encrypted
 
-89. Generate Token on Successful Login
+        }
 
+MagicVilla_VillaAPI/appsettings.json
 
+        "DefaultSQLConnection": "Server=P17-PF2PTX0W\\SQLEXPRESS;Database=Magic_VillaAPI;TrustServerCertificate=True;Trusted_Connection=True;MultipleActiveResultSets=true"
+      },
+      "ApiSettings": {
+        "Secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET"
+      }
+    }
 
+89. Generate JWT Token on Successful Login, validate username and password part 2
+MagicVilla_VillaAPI/Repository/UserRepository.cs
 
+        public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
+        {
+            var user = _db.LocalUsers.FirstOrDefault(
+                u => u.UserName.ToLower() == loginRequestDTO.UserName.ToLower()
+                && u.Password == loginRequestDTO.Password);
 
+            if (user == null) //not a valid login, not found
+            {
+                return null;
+            }
+
+           //if user was found generate JWT Token. need secret key token will be encrypted
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(secretKey); //converts key to bytes 
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role)
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            LoginResponseDTO loginResponseDTO = new LoginResponseDTO()
+            {
+                Token = tokenHandler.WriteToken(token), //WriteToken serializes
+                User = user
+            };
+            return loginResponseDTO;
+        }
 
 90. User Controller
 
