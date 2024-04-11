@@ -1,8 +1,33 @@
-﻿85. Add Models for Login and Registeration
+﻿https://github.com/bhrugen/MagicVilla_API/commits/master/?after=ded7b5475d6514cb2865de5293a001ebb3aeda45+34
 
+85. API SECURITY- Add Models for Login and Registration
+https://github.com/bhrugen/MagicVilla_API/commit/ab317f4674a55b0ff95cb5f4ea2ecd0bc13f222d
 
+MagicVilla_VillaAPI/Models/LocalUser.cs
+MagicVilla_VillaAPI/Models/Dto/RegisterationRequestDTO.cs
+MagicVilla_VillaAPI/Models/Dto/LoginResponseDTO.cs
+MagicVilla_VillaAPI/Models/Dto/LoginRequestDTO.cs
+MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
 
+Create model
+MagicVilla_VillaAPI/Models/LocalUser.cs
 
+create DTOs
+MagicVilla_VillaAPI/Models/Dto/LoginRequestDTO.cs
+
+if request is successful, we send a response with user details and valid token in:
+MagicVilla_VillaAPI/Models/Dto/LoginResponseDTO.cs
+
+MagicVilla_VillaAPI/Models/Dto/RegistrationRequestDTO.cs
+No response needed, just 200 ok returned
+
+Add to ApplicationDbContext
+MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
+
+push migration.
+pm console api project
+add-migration addUsersToDb
+update-database
 
 
 86. Add User Repository
