@@ -30,18 +30,18 @@ add-migration addUsersToDb
 update-database
 
 
-86. Add User Repository
+86. Add UserRepository and IUserRepository. has methods to be implemented
+https://github.com/bhrugen/MagicVilla_API/commit/9d9882aecee860f5ae09befc5b240ea6d2ba33af
 
-
-
-
+Add interface MagicVilla_VillaAPI/Repository/IRepostiory/IUserRepository.cs
+MagicVilla_VillaAPI/Repository/UserRepository.cs
 
 
 87. Implement User Repository - Register
-
-
-
-
+https://github.com/bhrugen/MagicVilla_API/commit/19ef5c5ff749542bc986a3cee856b7fa08d7e6c8
+MagicVilla_VillaAPI/Repository/UserRepository.cs
+        public bool IsUniqueUser(string username)
+        public async Task<LocalUser> Register(RegistrationRequestDTO registerationRequestDTO)
 
 
 88. Implement User Repository - Login Part 1
