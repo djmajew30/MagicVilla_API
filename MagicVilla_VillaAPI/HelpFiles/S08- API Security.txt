@@ -133,15 +133,44 @@ builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
+91. Login and Register in Action, https://jwt.io/
 
+{
+  "userName": "testadmin@gmail.com",
+  "name": "David",
+  "password": "Admin123",
+  "role": "admin"
+}
 
+SELECT * FROM [Magic_VillaAPI].dbo.LocalUsers
 
+https://localhost:7001/api/UsersAuth/login:
 
-91. Login and Register in Action
+{
+  "statusCode": 200,
+  "isSuccess": true,
+  "errorMessages": [],
+  "result": {
+    "user": {
+      "id": 1,
+      "userName": "testadmin@gmail.com",
+      "name": "David",
+      "password": "Admin123",
+      "role": "admin"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTI5NTI1NDIsImV4cCI6MTcxMzU1NzM0MiwiaWF0IjoxNzEyOTUyNTQyfQ.uvb_hb5IM2CO0xBAtI7kFBQmUtjmxPdFYeEIY-Clk2Y"
+  }
+}
 
+put token into https://jwt.io/ to see
 
-
-
+{
+  "unique_name": "1",
+  "role": "admin",
+  "nbf": 1712952542,
+  "exp": 1713557342,
+  "iat": 1712952542
+}
 
 
 92. Secure API Endpoints
