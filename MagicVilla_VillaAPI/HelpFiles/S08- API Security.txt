@@ -93,7 +93,11 @@ MagicVilla_VillaAPI/Repository/UserRepository.cs
 
             if (user == null) //not a valid login, not found
             {
-                return null;
+                 return new LoginResponseDTO()
+                {
+                    Token = "",
+                    User = null
+                };
             }
 
            //if user was found generate JWT Token. need secret key token will be encrypted
@@ -120,8 +124,14 @@ MagicVilla_VillaAPI/Repository/UserRepository.cs
             return loginResponseDTO;
         }
 
-90. User Controller
+90. UserController.cs create in API
+https://github.com/bhrugen/MagicVilla_API/commit/42d69f70fa7ecbd27e5c4ed62712266fa47dadfa
+MagicVilla_VillaAPI/Controllers/UsersController.cs
 
+add to MagicVilla_VillaAPI/Program.cs
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 
 

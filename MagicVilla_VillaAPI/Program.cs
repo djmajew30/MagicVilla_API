@@ -19,6 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 
 //50. repository
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 //46 automapper

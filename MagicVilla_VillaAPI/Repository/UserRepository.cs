@@ -39,7 +39,11 @@ namespace MagicVilla_VillaAPI.Repository
 
             if (user == null) //not a valid login, not found
             {
-                return null;
+                return new LoginResponseDTO()
+                {
+                    Token = "",
+                    User = null
+                };
             }
 
             //if user was found generate JWT Token. need secret key token will be encrypted
