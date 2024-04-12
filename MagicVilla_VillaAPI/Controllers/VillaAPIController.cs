@@ -4,6 +4,7 @@ using MagicVilla_VillaAPI.Logging;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
 using MagicVilla_VillaAPI.Repository.IRepostiory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
 
         [HttpGet]
+        [Authorize] //only authorized user, ANY role
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillas()
         {
@@ -72,6 +74,7 @@ namespace MagicVilla_VillaAPI.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetVilla")]
+        [Authorize(Roles = "admin")]
         //these are to document/remove undocumented
         //[ProducesResponseType(200, Type =typeof(VillaDTO))]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -182,6 +185,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:int}", Name = "DeleteVilla")]
+        [Authorize(Roles = "CUSTOM")] //CUSTOM does not exist, will not work. Done on purpose to show
         //use IActionResult instead of ActionResult becuase you do not need to define the return type
         public async Task<ActionResult<APIResponse>> DeleteVilla(int id)
         {

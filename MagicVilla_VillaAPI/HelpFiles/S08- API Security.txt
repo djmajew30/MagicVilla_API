@@ -173,15 +173,13 @@ put token into https://jwt.io/ to see
 }
 
 
-92. Secure API Endpoints
+92. Secure API Endpoints, allow only authorized users to access certain controllers
+https://github.com/bhrugen/MagicVilla_API/commit/65953b8e0796a7331a4f457f4b11d5c90c9dfd65#diff-05d3e6a00179038ec6b16b6a8bdb5f8e15775ceb288168625aead8b0348c39cb
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
-
-
-
-
-93. Authentication in Action
-
+93. Authentication in Action. adding JWT toke to swagger for when we log in
+https://github.com/bhrugen/MagicVilla_API/commit/246f8153ba98ef45b79c4dae7833f8eb74cf85d2
 
 
 
