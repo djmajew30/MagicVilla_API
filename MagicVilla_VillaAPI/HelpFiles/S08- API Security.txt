@@ -233,8 +233,62 @@ app.UseAuthorization();
 ...
 
 94. Swagger and Bearer in Action. It already works in POSTMAN
+https://github.com/bhrugen/MagicVilla_API/commit/8f065464f774d8fb8801b0867504cbb1006c7fa6#diff-7f2db5ccf43e9f0825f9f25cf7bb653905d8f576d42d850b3f8f4d4a88e77e1c
+happends in program.cs builder.Services.AddSwaggerGen();
 
+Add proper product response types to MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+to
+GetVillas()
+GetVilla(int id)
+DeleteVilla(int id)
 
+MagicVilla_VillaAPI/Program.cs
+builder.Services.AddEndpointsApiExplorer();
 
+    builder.Services.AddControllers();
+    //94. Bearer token in swagger
+    //builder.Services.AddSwaggerGen(); //replaced
+    builder.Services.AddSwaggerGen(options => {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Description =
+                "JWT Authorization header using the Bearer scheme. \r\n\r\n " +
+                "Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\n" +
+                "Example: \"Bearer 12345abcdef\"",
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Scheme = "Bearer"
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                },
+                    Scheme = "oauth2",
+                    Name = "Bearer",
+                    In = ParameterLocation.Header
+                },
+                new List<string>()
+            }
+        });
+    });
+    ...
+    var app = builder.Build();
 
+to test:
+api swagger login:
+{
+  "userName": "testadmin@gmail.com",
+  "password": "Admin123"
+}
 
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTMxMDE4MDIsImV4cCI6MTcxMzcwNjYwMiwiaWF0IjoxNzEzMTAxODAyfQ.FxBQ_w5fBWwyCbUCHmBrMCW4SE1gUg4kg734mLwIw9k
+
+then click authorize in swagger, type ""Bearer (token)""
