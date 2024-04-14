@@ -178,14 +178,61 @@ https://github.com/bhrugen/MagicVilla_API/commit/65953b8e0796a7331a4f457f4b11d5c
 MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
 
-93. Authentication in Action. adding JWT toke to swagger for when we log in
+93. Authentication in Action. adding JWT token for when we log in. configure in program.cs, install nuget package. with POSTMAN
 https://github.com/bhrugen/MagicVilla_API/commit/246f8153ba98ef45b79c4dae7833f8eb74cf85d2
 
+use postman to test
+api swagger login:
+{
+  "userName": "testadmin@gmail.com",
+  "password": "Admin123"
+}
+token
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTMxMDAzNTIsImV4cCI6MTcxMzcwNTE1MiwiaWF0IjoxNzEzMTAwMzUyfQ.IY8rJMEkyEJXidtJlA0wT7iRubCaL_mPbT560t3en6o
 
+postman, new request headers
+click authorization tab, chose bearer
+Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJyb2xlIjoiYWRtaW4iLCJuYmYiOjE3MTMxMDAzNTIsImV4cCI6MTcxMzcwNTE1MiwiaWF0IjoxNzEzMTAwMzUyfQ.IY8rJMEkyEJXidtJlA0wT7iRubCaL_mPbT560t3en6o
 
+ERROR:
+System.InvalidOperationException: No authenticationScheme was specified, and there was no DefaultChallengeScheme found. 
+The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).
 
+so we need to add nuget package to VillaAPI project:
+Microsoft.AspNetCore.Authentication.JwtBearer
 
-94. Swagger and Bearer in Action
+MagicVilla_VillaAPI/Program.cs
+
+    //46 automapper
+    builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+    //93 jwt authentication
+    var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
+
+    builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+        .AddJwtBearer(x => {
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        }); ;
+...
+app.UseHttpsRedirection();
+//93 jwt authentication
+app.UseAuthentication();
+app.UseAuthorization();
+...
+
+94. Swagger and Bearer in Action. It already works in POSTMAN
 
 
 
