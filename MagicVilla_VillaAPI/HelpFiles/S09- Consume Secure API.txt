@@ -9,10 +9,12 @@ MagicVilla_Web/Models/Dto/LoginResponseDTO.cs
 MagicVilla_Web/Models/Dto/RegistrationRequestDTO.cs
 MagicVilla_Web/Models/Dto/UserDTO.cs
 
-96. Add Auth Service
+96. Add AuthService and IAuthService
+https://github.com/bhrugen/MagicVilla_API/commit/ef95926d64a61e79cd2d862fa946c4c4a9c5e6e4
 
-
-
+MagicVilla_Web/Services/AuthService.cs
+MagicVilla_Web/Services/IServices/IAuthService.cs
+MagicVilla_Web/Program.cs
 
 
 
