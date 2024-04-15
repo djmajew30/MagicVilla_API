@@ -17,13 +17,9 @@ MagicVilla_Web/Services/IServices/IAuthService.cs
 MagicVilla_Web/Program.cs
 
 
-
 97. Auth Controller Action Methods
-
-
-
-
-
+https://github.com/bhrugen/MagicVilla_API/commit/8efadb12f088d1e486737decf1fcb27a40458eaa
+MagicVilla_Web/Controllers/AuthController.cs
 
 
 98. Login and Register View
