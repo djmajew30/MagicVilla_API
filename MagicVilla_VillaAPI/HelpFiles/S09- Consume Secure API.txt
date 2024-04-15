@@ -1,9 +1,13 @@
-﻿95. Add DTOs for Login and Registeration
+﻿https://github.com/bhrugen/MagicVilla_API/commits/master/?before=ded7b5475d6514cb2865de5293a001ebb3aeda45+35
 
+95. Add DTOs for Login and Registration, web project 
+https://github.com/bhrugen/MagicVilla_API/commit/2dd4a059158a86ca0faee7d8528dfa8e17b289a9
 
-
-
-
+same or similar to whats in API
+MagicVilla_Web/Models/Dto/LoginRequestDTO.cs
+MagicVilla_Web/Models/Dto/LoginResponseDTO.cs
+MagicVilla_Web/Models/Dto/RegistrationRequestDTO.cs
+MagicVilla_Web/Models/Dto/UserDTO.cs
 
 96. Add Auth Service
 
