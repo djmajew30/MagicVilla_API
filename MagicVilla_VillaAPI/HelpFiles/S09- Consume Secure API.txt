@@ -22,11 +22,16 @@ https://github.com/bhrugen/MagicVilla_API/commit/8efadb12f088d1e486737decf1fcb27
 MagicVilla_Web/Controllers/AuthController.cs
 
 
-98. Login and Register View
+98. Login and Register View (action method views)
+https://github.com/bhrugen/MagicVilla_API/commit/94921ed39039afa42c0b8424460b303fe0cd8bd5
+MagicVilla_Web/Views/Auth/Login.cshtml
+MagicVilla_Web/Views/Auth/AccessDenied.cshtml
+MagicVilla_Web/Views/Auth/Register.cshtml
 
-
-
-
+web as startup
+https://localhost:7002/auth/register
+https://localhost:7002/auth/login
+https://localhost:7002/auth/accessdenied
 
 
 99. Auth Controller Action Methods
