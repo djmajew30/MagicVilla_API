@@ -34,12 +34,37 @@ https://localhost:7002/auth/login
 https://localhost:7002/auth/accessdenied
 
 
-99. Auth Controller Action Methods
+99. Auth token for session. Auth Controller Action Methods. when we log in, sends token. that token save to all requests to the api
+https://github.com/bhrugen/MagicVilla_API/commit/be0ac992d2ba81bdb0b136218daf7043cac40f2f
+
+when we log in, sends token. that token save to all requests to the api
+MagicVilla_Utility/SD.cs
+MagicVilla_Web/Controllers/AuthController.cs
+MagicVilla_Web/Program.cs
+
+Add in MagicVilla_Web/Program.cs
+
+    builder.Services.AddScoped<IAuthService, AuthService>();
+    //99. auth token for session
+    builder.Services.AddDistributedMemoryCache();
+
+    builder.Services.AddSession(options =>
+    {
+        options.IdleTimeout = TimeSpan.FromMinutes(100);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+    });
+    var app = builder.Build();
+    ...
+    //99. auth token for session
+    app.UseAuthorization();
+    app.UseSession();
 
 
+MagicVilla_Utility/SD.cs
 
-
-
+        //99. auth token for session
+        public static string SessionToken = "JWTToken";
 
 100. NavBar Display
 
