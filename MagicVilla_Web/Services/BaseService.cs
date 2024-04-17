@@ -2,6 +2,7 @@
 using MagicVilla_Web.Models;
 using MagicVilla_Web.Services.IServices;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace MagicVilla_Web.Services
@@ -55,6 +56,13 @@ namespace MagicVilla_Web.Services
 
                 //when above sent, we will receive a response. set null by default
                 HttpResponseMessage apiResponse = null;
+
+                //102 pass token to API
+                if (!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
+
                 //call api endpoint
                 //place breakepoint here
                 apiResponse = await client.SendAsync(message);

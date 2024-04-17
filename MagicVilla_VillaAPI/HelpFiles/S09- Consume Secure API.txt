@@ -157,5 +157,7 @@ MagicVilla_Web/Controllers/AuthController.cs
 
 
 102. Pass Token to API from Web Project
+https://github.com/bhrugen/MagicVilla_API/commit/cdbf66a3770c827bab097f0bd9325a43d3db3e0f
+
 
 

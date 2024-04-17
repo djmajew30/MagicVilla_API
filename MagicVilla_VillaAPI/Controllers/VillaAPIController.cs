@@ -47,7 +47,6 @@ namespace MagicVilla_VillaAPI.Controllers
 
 
         [HttpGet]
-        [Authorize] //only authorized user, ANY role
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -75,7 +74,6 @@ namespace MagicVilla_VillaAPI.Controllers
             return _response;
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet("{id:int}", Name = "GetVilla")]
         //these are to document/remove undocumented
         //[ProducesResponseType(200, Type =typeof(VillaDTO))]
@@ -119,6 +117,7 @@ namespace MagicVilla_VillaAPI.Controllers
             //return Ok(_mapper.Map<VillaDTO>(villa));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]//want to give 201 created instead
         //[ProducesResponseType(StatusCodes.Status200OK)]
@@ -191,7 +190,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id:int}", Name = "DeleteVilla")]
-        [Authorize(Roles = "CUSTOM")] //CUSTOM does not exist, will not work. Done on purpose to show
+        [Authorize(Roles = "admin")] //CUSTOM does not exist, will not work. Done on purpose to show
         //use IActionResult instead of ActionResult becuase you do not need to define the return type
         public async Task<ActionResult<APIResponse>> DeleteVilla(int id)
         {
@@ -223,6 +222,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id:int}", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
