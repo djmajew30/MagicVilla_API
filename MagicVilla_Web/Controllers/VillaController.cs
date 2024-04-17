@@ -2,6 +2,7 @@
 using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.Dto;
 using MagicVilla_Web.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -30,14 +31,16 @@ namespace MagicVilla_Web.Controllers
 			return View(list);
 		}
 
-		//Create Villa HTTPGET
-		public async Task<IActionResult> CreateVilla()
+        //Create Villa HTTPGET
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> CreateVilla()
 		{
 			return View();
 		}
 
-		//CreateAsync create villa HTTPPOST 
-		[HttpPost]
+        //CreateAsync create villa HTTPPOST 
+        [Authorize(Roles = "admin")]
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> CreateVilla(VillaCreateDTO model) //VillaCreateDTO same as villaservice CreateAsync
 		{
@@ -55,8 +58,9 @@ namespace MagicVilla_Web.Controllers
             return View(model);
 		}
 
-		//GetAsync for updating a record
-		public async Task<IActionResult> UpdateVilla(int villaId)
+        //GetAsync for updating a record
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> UpdateVilla(int villaId)
 		{
 			var response = await _villaService.GetAsync<APIResponse>(villaId);
 			if (response != null && response.IsSuccess)
@@ -69,8 +73,9 @@ namespace MagicVilla_Web.Controllers
 			return NotFound();
 		}
 
-		//UpdateAsync for updating a record
-		[HttpPost]
+        //UpdateAsync for updating a record
+        [Authorize(Roles = "admin")]
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> UpdateVilla(VillaUpdateDTO model)
 		{
@@ -88,6 +93,7 @@ namespace MagicVilla_Web.Controllers
 		}
 
         //GetAsync for delete
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteVilla(int villaId)
         {
             var response = await _villaService.GetAsync<APIResponse>(villaId);
@@ -102,6 +108,7 @@ namespace MagicVilla_Web.Controllers
         }
 
         //DeleteAsync for delete
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteVilla(VillaDTO model)
