@@ -75,6 +75,7 @@ MagicVilla_Web/Views/Shared/_Layout.cshtml
 
     @using MagicVilla_Utility
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpAcc
+    @using Microsoft.AspNetCore.Http httpAcc
     ...
                                 <a class="nav-link text-dark" asp-area="" asp-controller="VillaNumber" asp-action="IndexVillaNumber">Villa Number</a>
                             </li>
