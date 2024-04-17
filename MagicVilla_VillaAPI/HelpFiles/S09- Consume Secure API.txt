@@ -1,4 +1,6 @@
 ﻿https://github.com/bhrugen/MagicVilla_API/commits/master/?before=ded7b5475d6514cb2865de5293a001ebb3aeda45+35
+  "userName": "testadmin@gmail.com",
+  "password": "Admin123"
 
 95. Add DTOs for Login and Registration, web project 
 https://github.com/bhrugen/MagicVilla_API/commit/2dd4a059158a86ca0faee7d8528dfa8e17b289a9
@@ -66,11 +68,38 @@ MagicVilla_Utility/SD.cs
         //99. auth token for session
         public static string SessionToken = "JWTToken";
 
-100. NavBar Display
+100. NavBar Display for auth token
+https://github.com/bhrugen/MagicVilla_API/commit/316c1e86d15555332d86573a619deae555a36071
 
+MagicVilla_Web/Views/Shared/_Layout.cshtml
 
+    @using MagicVilla_Utility
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpAcc
+    ...
+                                <a class="nav-link text-dark" asp-area="" asp-controller="VillaNumber" asp-action="IndexVillaNumber">Villa Number</a>
+                            </li>
 
+                            @if (httpAcc.HttpContext.Session.GetString(SD.SessionToken) != null &&
+               httpAcc.HttpContext.Session.GetString(SD.SessionToken).ToString().Length > 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Auth" asp-action="Logout">Logout</a>
+                                </li>
+                            }
+                            else{
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Register">Register</a>
+                            </li>
+                            }
 
+MagicVilla_Web/Program.cs
+
+    builder.Services.AddScoped<IVillaNumberService, VillaNumberService>();
+    builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 
 101. Authentication in Web Project
