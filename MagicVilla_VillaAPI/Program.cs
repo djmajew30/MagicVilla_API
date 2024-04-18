@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Asp.Versioning;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,15 @@ builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 //46 automapper
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+//104. Add Versioning to API Services
+builder.Services.AddApiVersioning(options =>
+{
+    //use and set default version
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+});
+
 
 //93 jwt authentication
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");

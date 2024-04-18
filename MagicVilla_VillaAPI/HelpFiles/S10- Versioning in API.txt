@@ -14,9 +14,22 @@ Asp.Versioning.Mvc.ApiExplorer
 
 
 104. Add Versioning to API Services
+https://github.com/bhrugen/MagicVilla_API/commit/89a2bdccbf3d51ee0b488aaf5e5eec96abddb88b#diff-aadb17292038f3d69a234614bbb99e36edee9b967d77c074725bb64732539294
+MagicVilla_VillaAPI/Program.cs
 
+    //46 automapper
+    builder.Services.AddAutoMapper(typeof(MappingConfig));
 
+    //104. Add Versioning to API Services
+    builder.Services.AddApiVersioning(options =>
+    {
+        //use and set default version
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+    });
 
+    //93 jwt authentication
+    var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
 
 
