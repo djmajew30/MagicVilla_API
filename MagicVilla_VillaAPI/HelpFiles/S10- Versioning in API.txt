@@ -1,8 +1,16 @@
-﻿103. Nuget Packages for API Versioning
+﻿https://github.com/bhrugen/MagicVilla_API/commits/master/?before=ded7b5475d6514cb2865de5293a001ebb3aeda45+35
 
+"userName": "testadmin@gmail.com",
+"password": "Admin123"
+  
+103. Nuget Packages for API Versioning
+nuget install insto VILLA API proj
+Microsoft.AspNetCore.Mvc.Versioning
+Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 
-
-
+These are depreciated, please try
+Asp.Versioning.Mvc
+Asp.Versioning.Mvc.ApiExplorer
 
 
 104. Add Versioning to API Services
