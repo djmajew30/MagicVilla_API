@@ -1,5 +1,4 @@
-﻿using Asp.Versioning;
-using AutoMapper;
+﻿using AutoMapper;
 using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Logging;
 using MagicVilla_VillaAPI.Models;
@@ -18,9 +17,12 @@ namespace MagicVilla_VillaAPI.Controllers
     //Can use the generic below to automatically route to Controller prefix:
     //not ideal if you need to change controller name
     //[Route("api/[controller]")] is the same as [Route("api/VillaNumberAPI")] as It's in the VillaNumberAPIController
-    [Route("api/VillaNumberAPI")]
+    //[Route("api/VillaNumberAPI")]
+    //106 multiple versions
+    [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
     [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class VillaNumberAPIController : ControllerBase
     {
         //53. standard api response
@@ -51,7 +53,15 @@ namespace MagicVilla_VillaAPI.Controllers
             _dbVilla = dbVilla; 
         }
 
+        //sample version 2 endpoint for lesson 106
+        [MapToApiVersion("2.0")]
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value 1", "value 2" };
+        }
 
+        [MapToApiVersion("1.0")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
@@ -79,6 +89,8 @@ namespace MagicVilla_VillaAPI.Controllers
 
             return _response;
         }
+
+
 
         [HttpGet("{id:int}", Name = "GetVillaNumber")]
         //these are to document/remove undocumented

@@ -44,10 +44,43 @@ MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
     public class VillaNumberAPIController : ControllerBase
 
 
-106. Multiple Version in same Controller
+106. Multiple Version in same ControllerLets assume we are working on a new version of GetVillaNumber(int id) in MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
+https://github.com/bhrugen/MagicVilla_API/commit/6b1a5afdcf2a2f78e5c30cb19e0e4d4a7c06bd4d#diff-65f682a433fcc0cf21257269bf0e4fc17831340eeed8e2504533738235da3e36
 
+Lets assume we are working on a new version of GetVillaNumber(int id)
+in MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
 
+    [Route("api/v{version:apiVersion}/VillaNumberAPI")]
+    [ApiController]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
+    public class VillaNumberAPIController : ControllerBase
+    {
+        protected APIResponse _response;
+        ...
+        [HttpGet]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<APIResponse>> GetVillaNumbers()
+        ...
 
+        [MapToApiVersion("2.0")]
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+add to MagicVilla_VillaAPI/Program.cs
+
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+    });
+    //new
+    builder.Services.AddVersionedApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+    });
+    var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
 
 
