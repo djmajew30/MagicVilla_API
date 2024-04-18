@@ -13,7 +13,7 @@ Asp.Versioning.Mvc
 Asp.Versioning.Mvc.ApiExplorer
 
 
-104. Add Versioning to API Services
+104. Add Versioning to API Services and default version
 https://github.com/bhrugen/MagicVilla_API/commit/89a2bdccbf3d51ee0b488aaf5e5eec96abddb88b#diff-aadb17292038f3d69a234614bbb99e36edee9b967d77c074725bb64732539294
 MagicVilla_VillaAPI/Program.cs
 
@@ -33,11 +33,15 @@ MagicVilla_VillaAPI/Program.cs
 
 
 
-105. API Version Attribute
+105. API Version Attribute [ApiVersion("1.0")]
+https://github.com/bhrugen/MagicVilla_API/commit/fa38f0a77d9f9ed07d60c73a62f396749c640ca7
 
+MagicVilla_VillaAPI/Controllers/VillaNumberAPIController.cs
 
-
-
+    [Route("api/VillaNumberAPI")]
+    [ApiController]
+    [ApiVersion("2.0")]
+    public class VillaNumberAPIController : ControllerBase
 
 
 106. Multiple Version in same Controller

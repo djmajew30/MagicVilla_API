@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Logging;
 using MagicVilla_VillaAPI.Models;
@@ -19,6 +20,7 @@ namespace MagicVilla_VillaAPI.Controllers
     //[Route("api/[controller]")] is the same as [Route("api/VillaNumberAPI")] as It's in the VillaNumberAPIController
     [Route("api/VillaNumberAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class VillaNumberAPIController : ControllerBase
     {
         //53. standard api response
