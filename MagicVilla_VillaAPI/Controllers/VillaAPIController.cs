@@ -17,8 +17,9 @@ namespace MagicVilla_VillaAPI.Controllers
     //Can use the generic below to automatically route to Controller prefix:
     //not ideal if you need to change controller name
     //[Route("api/[controller]")] is the same as [Route("api/VillaAPI")] as It's in the VillaAPIController
-    [Route("api/VillaAPI")]
+    [Route("api/v{version:apiVersion}/VillaAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class VillaAPIController : ControllerBase
     {
         //53. standard api response

@@ -85,11 +85,41 @@ add to MagicVilla_VillaAPI/Program.cs
 
 
 107. API Version Configuration
+https://github.com/bhrugen/MagicVilla_API/commit/d57915995092695fc85390e17f053d635438bd31
 
+Add version routes to 
+MagicVilla_VillaAPI/Controllers/UsersController.cs
 
+    [Route("api/v{version:apiVersion}/UsersAuth")]
+    [ApiController]
+    [ApiVersion("1.0")]
 
+MagicVilla_VillaAPI/Controllers/VillaAPIController.cs
 
+    [Route("api/v{version:apiVersion}/VillaAPI")]
+    [ApiController]
+    [ApiVersion("1.0")]
 
+MagicVilla_VillaAPI/Program.cs
+
+    //104. Add Versioning to API Services
+    builder.Services.AddApiVersioning(options =>
+    {
+        //use and set default version
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        //options.DefaultApiVersion = new ApiVersion(1, 0);
+        //107 version config. in response header, we want to show which api versions are available
+        options.DefaultApiVersion = new ApiVersion(2, 0);
+        options.ReportApiVersions = true;
+    });
+
+    //106 multiple versions
+    builder.Services.AddVersionedApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+        //107 version config. invokes v1 in url automatically
+        options.SubstituteApiVersionInUrl = true;
+    });
 
 108. Swagger Document for v1
 

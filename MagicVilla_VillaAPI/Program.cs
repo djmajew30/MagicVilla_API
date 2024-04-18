@@ -35,13 +35,18 @@ builder.Services.AddApiVersioning(options =>
 {
     //use and set default version
     options.AssumeDefaultVersionWhenUnspecified = true;
-    options.DefaultApiVersion = new ApiVersion(1, 0);
+    //options.DefaultApiVersion = new ApiVersion(1, 0);
+    //107 version config. in response header, we want to show which api versions are available
+    options.DefaultApiVersion = new ApiVersion(2, 0);
+    options.ReportApiVersions = true;
 });
 
 //106 multiple versions
 builder.Services.AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
+    //107 version config. invokes v1 in url automatically
+    options.SubstituteApiVersionInUrl = true;
 });
 
 //93 jwt authentication
