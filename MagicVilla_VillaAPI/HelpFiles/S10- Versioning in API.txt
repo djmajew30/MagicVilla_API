@@ -121,14 +121,44 @@ MagicVilla_VillaAPI/Program.cs
         options.SubstituteApiVersionInUrl = true;
     });
 
-108. Swagger Document for v1
+108. Swagger Document for v1. clean up
+https://github.com/bhrugen/MagicVilla_API/commit/69325f88c299c010c2715701d4284cb6f8c4c162
+MagicVilla_VillaAPI/Program.cs
+
+                    new List<string>()
+                }
+            });
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1.0",
+                Title = "Magic Villa",
+                Description = "API to manage Villa",
+                TermsOfService = new Uri("https://example.com/terms"),
+                Contact = new OpenApiContact
+                {
+                    Name = "Dotnetmastery",
+                    Url = new Uri("https://dotnetmastery.com")
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "Example License",
+                    Url = new Uri("https://example.com/license")
+                }
+            });
+        });
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Magic_VillaV1");
+            });
 
 
 
-
-
-
-109. Multiple Version Swagger Doc
+109. Multiple Version Swagger Doc. want to invoke v2
 
 
 
