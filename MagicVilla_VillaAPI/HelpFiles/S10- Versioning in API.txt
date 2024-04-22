@@ -210,14 +210,27 @@ program.cs
 https://github.com/bhrugen/MagicVilla_API/commit/3f7b4542524e13c06dede706d5da55fcb7ce6ddb
 
 
-111. API Neutral and Depreciating API
+111. API Neutral and Depreciating API. Keep usercontroller constant no matter what the version is
+https://github.com/bhrugen/MagicVilla_API/commit/18be9c092455564f682483f1d125b47f5d717c5b
 
+MagicVilla_VillaAPI/Controllers/UsersController.cs
+[ApiVersionNeutral]
 
+Test situation:
+MagicVilla_VillaAPI/Controllers/v1/VillaNumberAPIController.cs
 
+MagicVilla_VillaAPI/Controllers/v2/VillaNumberAPIController.cs
 
+in each use this, with different string values        
+        [HttpGet("GetString")]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "David", "John" };
+        }
 
 
 112. Consume Versioned API
+https://github.com/bhrugen/MagicVilla_API/commit/db0b2fe92500172ba71b2fd62c6d5808bdbe21cb
 
 
 

@@ -21,7 +21,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
     //106 multiple versions
     [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersion("1.0")] //can do [ApiVersion("1.0", Deprecated = true)], but not that explicit
     public class VillaNumberAPIController : ControllerBase
     {
         //53. standard api response
@@ -50,6 +50,14 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             _mapper = mapper;
             _response = new();
             _dbVilla = dbVilla; 
+        }
+
+        //111 api nuetral
+        //new getstring or its just the same as [HttpGet] below
+        [HttpGet("GetString")]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1 for v1", "value2 for v1" };
         }
 
         //[MapToApiVersion("1.0")]
