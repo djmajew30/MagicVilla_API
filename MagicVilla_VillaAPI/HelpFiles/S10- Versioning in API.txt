@@ -229,10 +229,26 @@ in each use this, with different string values
         }
 
 
-112. Consume Versioned API
+112. Consume Versioned API. Add to MagicVilla_Web/Services
 https://github.com/bhrugen/MagicVilla_API/commit/db0b2fe92500172ba71b2fd62c6d5808bdbe21cb
 
+MagicVilla_Web/Services/AuthService.cs
+MagicVilla_Web/Services/BaseService.cs
+MagicVilla_Web/Services/VillaNumberService.cs
+MagicVilla_Web/Services/VillaService.cs
 
+wherever you see Url = villaUrl + "/api/villaAPI" or similar, change
+Url = villaUrl + "/api/villaAPI"
+to
+Url = villaUrl + "/api/v1/villaAPI"
 
+you could also create a constant for that
 
+in baseservice:
 
+                    //api will always retreive type APIResponse
+                    APIResponse ApiResponse = JsonConvert.DeserializeObject<APIResponse>(apiContent);
+                    if (ApiResponse != null && (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest
+                                || apiResponse.StatusCode == System.Net.HttpStatusCode.NotFound))
+                    {
+                        ApiResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
