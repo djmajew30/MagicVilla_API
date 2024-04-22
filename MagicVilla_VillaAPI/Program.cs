@@ -37,7 +37,7 @@ builder.Services.AddApiVersioning(options =>
     options.AssumeDefaultVersionWhenUnspecified = true;
     //options.DefaultApiVersion = new ApiVersion(1, 0);
     //107 version config. in response header, we want to show which api versions are available
-    options.DefaultApiVersion = new ApiVersion(2, 0);
+    options.DefaultApiVersion = new ApiVersion(1, 0);
     options.ReportApiVersions = true;
 });
 
