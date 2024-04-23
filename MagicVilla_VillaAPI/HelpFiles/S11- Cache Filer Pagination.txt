@@ -192,10 +192,19 @@ returns response header json
 
 119. Status Code and IsSuccess
 
+villapi if not found, 
+                //19. add validation for notfound 404
+                if (villa == null)
+                {
+                    _response.StatusCode = HttpStatusCode.NotFound;
+                    //119. status code and is success
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages.Add("That villa id is not found");
+                    return NotFound(_response);
+                }
 
-
-
-
+another idea
+if status code between 200-299, is successful, if not, false
 
 120. Bug Fixing
 

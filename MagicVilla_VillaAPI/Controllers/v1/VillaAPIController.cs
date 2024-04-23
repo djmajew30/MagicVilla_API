@@ -136,10 +136,15 @@ namespace MagicVilla_VillaAPI.Controllers.v1
                 if (villa == null)
                 {
                     _response.StatusCode = HttpStatusCode.NotFound;
+                    //119. status code and is success
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages.Add("That villa id is not found");
                     return NotFound(_response);
                 }
                 _response.Result = _mapper.Map<VillaDTO>(villa); //Map<destination type>(object to convert) //<output>(input)
                 _response.StatusCode = HttpStatusCode.OK;
+
+
                 return Ok(_response);
             }
             catch (Exception ex)
