@@ -53,14 +53,29 @@ namespace MagicVilla_VillaAPI.Controllers.v1
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas()
+        //[FromQuery(Name ="filterOccupancy")]int? occupancy in 115 filters
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy)
         {
+
+            //115 filter
+            IEnumerable<Villa> villaList;
+
+            if (occupancy > 0)
+            {
+                villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy);
+            }
+            else
+            {
+                villaList = await _dbVilla.GetAllAsync();
+            }
+
+
             try
             {
                 _logger.LogInformation("Getting all villas");
 
-                //get villa list
-                IEnumerable<Villa> villaList = await _dbVilla.GetAllAsync();
+                ////get villa list //commented out in 115 for filter to reassign
+                //IEnumerable<Villa> villaList = await _dbVilla.GetAllAsync();
 
                 //convert to villaDTO
                 _response.Result = _mapper.Map<List<VillaDTO>>(villaList); //Map<destination type>(object to convert) //<output>(input)

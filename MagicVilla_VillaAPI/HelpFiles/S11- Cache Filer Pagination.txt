@@ -52,8 +52,24 @@ MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
 
 115. Filters in API
+https://github.com/bhrugen/MagicVilla_API/commit/6d17591dcb24de3ad231c8af0f18ffc54ef28472
+MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name ="filterOccupancy")]int? occupancy)
+        {
+            try
+            {
 
+                IEnumerable<Villa> villaList;
+
+                if (occupancy > 0)
+                {
+                    villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy);
+                }
+                else
+                {
+                    villaList = await _dbVilla.GetAllAsync();
+                }
 
 
 
