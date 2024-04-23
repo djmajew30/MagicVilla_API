@@ -55,7 +55,9 @@ namespace MagicVilla_VillaAPI.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         //[FromQuery(Name ="filterOccupancy")]int? occupancy in 115 filters
         public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy,
-            [FromQuery] string? search)
+            [FromQuery] string? search
+            //117. pagination
+            , int pageSize = 2, int pageNumber = 1)
         {
             try
             {
@@ -64,11 +66,14 @@ namespace MagicVilla_VillaAPI.Controllers.v1
 
                 if (occupancy > 0)
                 {
-                    villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy);
+                    //117. pagination
+                    villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy
+                            , pageSize: pageSize, pageNumber: pageNumber);
                 }
                 else
                 {
-                    villaList = await _dbVilla.GetAllAsync();
+                    //117. pagination
+                    villaList = await _dbVilla.GetAllAsync(pageSize: pageSize, pageNumber: pageNumber);
                 }
 
                 //116 search villa name or url filter

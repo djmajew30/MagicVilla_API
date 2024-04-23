@@ -105,10 +105,67 @@ MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
 
 117. Pagination in API
+https://github.com/bhrugen/MagicVilla_API/commit/f5c13c1b03ca9f6fa147956930b9ca93f6979af6
 
+MagicVilla_VillaAPI/Repository/IRepostiory/IRepository.cs
 
+        //expression is for linq, can be ?null 
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null,
+            //117. Pagination (int pageSize = 3, int pageNumber = 1)
+            int pageSize = 3, int pageNumber = 1);
 
+MagicVilla_VillaAPI/Repository/Repository.cs
 
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null
+            //117. Pagination (int pageSize = 3, int pageNumber = 1)
+            , int pageSize = 3, int pageNumber = 1)
+        {
+            IQueryable<T> query = dbSet; //does not get executed right away, so we can add filter
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            //117. Pagination
+            if (pageSize > 0)
+            {
+                //set max to 100
+                if (pageSize > 100)
+                {
+                    pageSize = 100;
+                }
+
+                //which records to get
+                //skip0.take(5)
+                //page number- 2     || page size -5
+                //skip(5*(1)) take(5)
+                query = query.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            }
+
+MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
+
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy,
+            [FromQuery] string? search
+            //117. pagination
+            , int pageSize = 2, int pageNumber = 1)
+        {
+            try
+            {
+                //115 filter
+                IEnumerable<Villa> villaList;
+
+                if (occupancy > 0)
+                {
+                    //117. pagination
+                    villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy
+                            , pageSize: pageSize, pageNumber: pageNumber);
+                }
+                else
+                {
+                    //117. pagination
+                    villaList = await _dbVilla.GetAllAsync(pageSize: pageSize, pageNumber: pageNumber);
+                }
 
 
 118. Add Pagination to Response Header
