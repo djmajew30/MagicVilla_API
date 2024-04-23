@@ -206,7 +206,9 @@ villapi if not found,
 another idea
 if status code between 200-299, is successful, if not, false
 
-120. Bug Fixing
+120. Bug Fixing. Villa and VillaNumber CRUD only show x amount of records
+set default pagesizes to 0
+https://localhost:7001/api/v1/VillaAPI?pageSize=2&pageNumber=1
 
 
 

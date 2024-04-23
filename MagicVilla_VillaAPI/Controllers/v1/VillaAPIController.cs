@@ -58,7 +58,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
         public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy,
             [FromQuery] string? search
             //117. pagination
-            , int pageSize = 2, int pageNumber = 1)
+            , int pageSize = 0, int pageNumber = 1)
         {
             try
             {

@@ -57,7 +57,7 @@ namespace MagicVilla_VillaAPI.Repository
 
         public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null
             //117. Pagination (int pageSize = 3, int pageNumber = 1)
-            , int pageSize = 3, int pageNumber = 1)
+            , int pageSize = 0, int pageNumber = 1)
         {
             IQueryable<T> query = dbSet; //does not get executed right away, so we can add filter
 
