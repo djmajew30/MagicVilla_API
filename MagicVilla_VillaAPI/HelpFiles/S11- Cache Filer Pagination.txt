@@ -169,11 +169,26 @@ MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
 
 118. Add Pagination to Response Header
+https://github.com/bhrugen/MagicVilla_API/commit/d1811e9444a6687ce702c4fafd35a0b09ca795e5
 
+create new model
+MagicVilla_VillaAPI/Models/Pagination.cs
 
+MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
+...
+                    || u.ImageUrl.ToLower().Contains(search));
+                }
 
+                //118. Add Pagination to Response Header
+                Pagination pagination = new() { PageNumber = pageNumber, PageSize = pageSize };
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
 
+                _response.Result = _mapper.Map<List<VillaDTO>>(villaList); 
+                ...
+
+returns response header json
+ x-pagination: {"PageNumber":1,"PageSize":2} 
 
 119. Status Code and IsSuccess
 
