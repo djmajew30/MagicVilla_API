@@ -54,24 +54,29 @@ namespace MagicVilla_VillaAPI.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         //[FromQuery(Name ="filterOccupancy")]int? occupancy in 115 filters
-        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy)
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy,
+            [FromQuery] string? search)
         {
-
-            //115 filter
-            IEnumerable<Villa> villaList;
-
-            if (occupancy > 0)
-            {
-                villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy);
-            }
-            else
-            {
-                villaList = await _dbVilla.GetAllAsync();
-            }
-
-
             try
             {
+                //115 filter
+                IEnumerable<Villa> villaList;
+
+                if (occupancy > 0)
+                {
+                    villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy);
+                }
+                else
+                {
+                    villaList = await _dbVilla.GetAllAsync();
+                }
+
+                //116 search villa name or url filter
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villaList = villaList.Where(u => u.Name.ToLower().Contains(search)
+                    || u.ImageUrl.ToLower().Contains(search));
+                }
                 _logger.LogInformation("Getting all villas");
 
                 ////get villa list //commented out in 115 for filter to reassign

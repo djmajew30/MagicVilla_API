@@ -51,7 +51,7 @@ MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
 
 
-115. Filters in API
+115. Filters in API (getvillas)
 https://github.com/bhrugen/MagicVilla_API/commit/6d17591dcb24de3ad231c8af0f18ffc54ef28472
 MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
@@ -73,12 +73,35 @@ MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
 
 
+116. Seach Villa Name or url (getvillas), not going to db, but filtering the result
+https://github.com/bhrugen/MagicVilla_API/commit/b2fa1fe55a432fb5829aeb3d7ceec2e4c5f8a2be
 
-116. Seach Villa Name
+MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
 
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy,
+            [FromQuery] string? search)
+        {
+            try
+            {
+                //115 filter
+                IEnumerable<Villa> villaList;
 
+                if (occupancy > 0)
+                {
+                    villaList = await _dbVilla.GetAllAsync(u => u.Occupancy == occupancy);
+                }
+                else
+                {
+                    villaList = await _dbVilla.GetAllAsync();
+                }
 
-
+                //116 search villa name or url filter
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villaList = villaList.Where(u => u.Name.ToLower().Contains(search)
+                    || u.ImageUrl.ToLower().Contains(search));
+                }
+                _logger.LogInformation("Getting all villas");
 
 
 117. Pagination in API
