@@ -22,6 +22,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
 
+//113. Caching
+builder.Services.AddResponseCaching();
 //50. repository
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -74,12 +76,18 @@ builder.Services.AddAuthentication(x =>
 //builder.Services.AddControllers().AddNewtonsoftJson();
 
 //30. content negotiations
+//builder.Services.AddControllers();
 builder.Services.AddControllers(option =>
 {
+    //114 caching profile
+    option.CacheProfiles.Add("Default30",
+       new CacheProfile()
+       {
+           Duration = 30
+       });
     //option.ReturnHttpNotAcceptable = true; // commented out in 31 so swagger still works with plain text
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 

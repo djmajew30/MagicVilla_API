@@ -1,14 +1,53 @@
-﻿113. Caching Request
+﻿https://github.com/bhrugen/MagicVilla_API/commits/master/
+
+"userName": "testadmin@gmail.com",
+"password": "Admin123"
 
 
+113. Caching Request (in API proj)
+https://github.com/bhrugen/MagicVilla_API/commit/a5bafcac8509a471f587ac7c5609da519a2d7201
+MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
+
+        [HttpGet]
+        [ResponseCache(Duration = 30)] //seconds
+        ...
+        public async Task<ActionResult<APIResponse>> GetVillas()
+
+MagicVilla_VillaAPI/Program.cs
+
+	//113. Caching
+	builder.Services.AddResponseCaching();
+	//50. repository
+	builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+
+114. Caching Profile. ex. want a rule that says all should be cached for 30 seconds.
+add to program.cs
+https://github.com/bhrugen/MagicVilla_API/commit/9f35d216a457d617b37aec07dca609e8fe859c1c
+
+MagicVilla_VillaAPI/Program.cs
+
+                    ValidateAudience = false
+                };
+            }); ;
+            ...
+        //30. content negotiations
+        //builder.Services.AddControllers();
+        builder.Services.AddControllers(option =>
+        {
+            //114 caching profile
+            option.CacheProfiles.Add("Default30",
+               new CacheProfile()
+               {
+                   Duration = 30
+               });
+            //option.ReturnHttpNotAcceptable = true; // commented out in 31 so swagger still works with plain text
+        }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+        ...
+        builder.Services.AddEndpointsApiExplorer();
 
 
-
-
-114. Caching Profile
-
-
-
+MagicVilla_VillaAPI/Controllers/v1/VillaAPIController.cs
+		[ResponseCache(CacheProfileName = "Default30")]
 
 
 
