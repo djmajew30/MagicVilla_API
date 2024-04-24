@@ -39,13 +39,25 @@ update-database
 This was added becuase of application user
     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
 
-122. User Repository - Login
+122. User Repository - Login in API. No longer using local user model we have
 https://github.com/bhrugen/MagicVilla_API/commit/8f546a2d4e3c71feb630cdc1488edad19e79c0c8
 
+create MagicVilla_VillaAPI/Models/Dto/UserDTO.cs
 
+update MagicVilla_VillaAPI/MappingConfig.cs
+            CreateMap<ApplicationUser, UserDTO>().ReverseMap();
 
+update MagicVilla_VillaAPI/Models/Dto/LoginResponseDTO.cs
 
+        //public LocalUser User { get; set; } //removed for identity net
+        
+        //user and role are new in identity.net
+        public UserDTO User { get; set; }
+        public string Role { get; set; }
 
+update MagicVilla_VillaAPI/Repository/UserRepository.cs
+
+dependency injection and replace LocalUsers with ApplicationUsers
 
 
 123. User Repository - Register
