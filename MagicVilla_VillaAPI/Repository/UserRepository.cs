@@ -79,7 +79,8 @@ namespace MagicVilla_VillaAPI.Repository
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    //new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
                     //new Claim(ClaimTypes.Role, user.Role) 
                     //added 122
                     new Claim(ClaimTypes.Role, roles.FirstOrDefault()) 
@@ -96,7 +97,7 @@ namespace MagicVilla_VillaAPI.Repository
                 //added 122
                 //User = user
                 User = _mapper.Map<UserDTO>(user),
-                Role = roles.FirstOrDefault(),
+                //Role = roles.FirstOrDefault(), //removed 125
             };
             return loginResponseDTO;
         }
