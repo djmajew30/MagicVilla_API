@@ -99,23 +99,54 @@ namespace MagicVilla_VillaAPI.Repository
             return loginResponseDTO;
         }
 
-        public async Task<LocalUser> Register(RegistrationRequestDTO registerationRequestDTO)
+        ////register method updated in 123 register identity net
+        //public async Task<LocalUser> Register(RegistrationRequestDTO registerationRequestDTO)
+        //{
+        //    //add new user
+        //    LocalUser user = new()
+        //    {
+        //        UserName = registerationRequestDTO.UserName,
+        //        Password = registerationRequestDTO.Password,
+        //        Name = registerationRequestDTO.Name,
+        //        Role = registerationRequestDTO.Role
+        //    };
+
+        //    _db.LocalUsers.Add(user);
+        //    await _db.SaveChangesAsync();
+        //    //clear password before sending response
+        //    user.Password = "";
+        //    return user;
+
+        //}
+
+        public async Task<UserDTO> Register(RegistrationRequestDTO registerationRequestDTO)
         {
-            //add new user
-            LocalUser user = new()
+            //convert to ApplicationUser
+            ApplicationUser user = new()
             {
                 UserName = registerationRequestDTO.UserName,
-                Password = registerationRequestDTO.Password,
-                Name = registerationRequestDTO.Name,
-                Role = registerationRequestDTO.Role
+                Email = registerationRequestDTO.UserName,
+                NormalizedEmail = registerationRequestDTO.UserName.ToUpper(),
+                Name = registerationRequestDTO.Name
             };
 
-            _db.LocalUsers.Add(user);
-            await _db.SaveChangesAsync();
-            //clear password before sending response
-            user.Password = "";
-            return user;
+            try
+            {
+                //add password here becuase it is hashed, cannot assign above
+                var result = await _userManager.CreateAsync(user, registerationRequestDTO.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "admin"); //hardcoded to admin right now
+                    var userToReturn = _db.ApplicationUsers
+                        .FirstOrDefault(u => u.UserName == registerationRequestDTO.UserName);
+                    return _mapper.Map<UserDTO>(userToReturn);
+                }
+            }
+            catch (Exception e)
+            {
+            }
 
+            return new UserDTO();
         }
     }
 }

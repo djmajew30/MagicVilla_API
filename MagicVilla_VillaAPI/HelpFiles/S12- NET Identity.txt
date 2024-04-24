@@ -61,14 +61,11 @@ dependency injection and replace LocalUsers with ApplicationUsers
 
 
 123. User Repository - Register
-
-
-
-
+https://github.com/bhrugen/MagicVilla_API/commit/2e78a3ec4b6fb26c1b5e51a6910d7d57f16373f2
 
 
 124. Login and Registration with Identity
-
+https://github.com/bhrugen/MagicVilla_API/commit/20f2cdb616bd04c93ef6cbb7236340c88996cd57
 
 
 
