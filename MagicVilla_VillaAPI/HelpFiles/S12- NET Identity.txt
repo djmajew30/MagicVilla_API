@@ -1,11 +1,47 @@
-﻿121. Add Identity Library and Tables
+﻿
 
+121. Add Identity Library and Tables into the API
+https://github.com/bhrugen/MagicVilla_API/commit/066c5dc97b9761dbf867c057e7b05780af6e065e#diff-7f2db5ccf43e9f0825f9f25cf7bb653905d8f576d42d850b3f8f4d4a88e77e1c
 
+add Microsoft.AspNetCore.Identity.EntityFrameworkCore package to api
 
+Program.cs
 
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+});
 
+//121. NET identity
+//builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+now youve added the default IdentityUser, but you want more options, so create new model MagicVilla_VillaAPI/Models/ApplicationUser.cs
+
+MagicVilla_VillaAPI/Data/ApplicationDbContext.cs
+
+in PM api proj
+add-migration AddIdentityUserTable
+update-database
+
+ERROR primary key required. need to add to OnModelCreating override to create mappings needed:
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        //only this line is new
+            base.OnModelCreating(modelBuilder); 
+        ...
+
+in PM api proj
+add-migration AddIdentityUserTable
+update-database
+
+This was added becuase of application user
+    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
 
 122. User Repository - Login
+https://github.com/bhrugen/MagicVilla_API/commit/8f546a2d4e3c71feb630cdc1488edad19e79c0c8
+
 
 
 
