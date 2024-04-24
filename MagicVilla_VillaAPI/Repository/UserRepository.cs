@@ -18,16 +18,18 @@ namespace MagicVilla_VillaAPI.Repository
         //next 2 prop new in 122. Login identity
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public UserRepository(ApplicationDbContext db, IConfiguration configuration
             //122. Login Identity NET
-            , UserManager<ApplicationUser> userManager, IMapper mapper)
+            , UserManager<ApplicationUser> userManager, IMapper mapper, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             secretKey = configuration.GetValue<string>("ApiSettings:Secret");
             //122. Login Identity NET
             _mapper = mapper;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public bool IsUniqueUser(string username)
@@ -119,6 +121,7 @@ namespace MagicVilla_VillaAPI.Repository
 
         //}
 
+        ////ALL NEW IN 123. register method updated in 123 register identity net
         public async Task<UserDTO> Register(RegistrationRequestDTO registerationRequestDTO)
         {
             //convert to ApplicationUser
@@ -136,11 +139,18 @@ namespace MagicVilla_VillaAPI.Repository
                 var result = await _userManager.CreateAsync(user, registerationRequestDTO.Password);
                 if (result.Succeeded)
                 {
+                    if (!_roleManager.RoleExistsAsync("admin").GetAwaiter().GetResult())
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole("admin"));
+                        await _roleManager.CreateAsync(new IdentityRole("customer"));
+                    }
+
                     await _userManager.AddToRoleAsync(user, "admin"); //hardcoded to admin right now
                     var userToReturn = _db.ApplicationUsers
                         .FirstOrDefault(u => u.UserName == registerationRequestDTO.UserName);
                     return _mapper.Map<UserDTO>(userToReturn);
                 }
+                //if not successful, display error message on the ui as well
             }
             catch (Exception e)
             {
